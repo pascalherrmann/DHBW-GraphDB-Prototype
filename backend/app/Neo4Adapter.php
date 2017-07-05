@@ -8,6 +8,8 @@
 
 namespace App;
 
+use GraphAware\Neo4j\Client\ClientBuilder as ClientBuilder;
+
 
 class Neo4Adapter implements WikiInterface
 {
@@ -24,7 +26,19 @@ class Neo4Adapter implements WikiInterface
 
     public function randomEntry()
     {
-        // TODO: Implement randomEntry() method.
+       $client = self::getClient();
+
+       $query = "";
+
+       $result = $client->run($query);
+       
+    }
+
+    private function getClient() {
+        $client = ClientBuilder::create()
+            ->addConnection('bolt', 'bolt://neo4j:neo4j@localhost:7687')
+            ->build();
+        return $client;
     }
 
 }

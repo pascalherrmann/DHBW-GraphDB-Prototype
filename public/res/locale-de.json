@@ -8,6 +8,8 @@
     "FINISH_INPUT_PLACEHOLDER": "Finish",
     "WIKI_LETS_START_BUTTON": "Let's start!",
     "WIKI_TRY_AGAIN_BUTTON": "Try again",
-    "WIKI_NO_RESULTS_FOUND": "No results found!"
+    "WIKI_NO_RESULTS_FOUND": "No results found!",
+    "WELCOME": "Herzlich Willkommen!",
+    "MAIN_TITLE": "Integrationsseminar"
 
 }

@@ -1,46 +1,81 @@
-<center>
+<div class="vertical-center">
 
-    <div class="row" ng-show="new">
+    <div class="container">
 
-        <h3>{{"PLAY_GAME" | translate}}</h3>
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
-            <form>
-                <div class="form-group">
-                    <!--<label for="inputlg">Start</label>-->
-                    <input class="form-control input-lg text-center" id="inputlg" type="text" placeholder="{{'START_INPUT_PLACEHOLDER' | translate}}" ng-model="start" uib-typeahead="player as player for player in getAutocomplete($viewValue)" typeahead-loading="loadingLocations" autocomplete="off" typeahead-wait-ms=100>
-                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-                    <div ng-show="noResults">
-                        <i class="glyphicon glyphicon-remove"></i> {{"WIKI_NO_RESULTS_FOUND" | translate}}
+        <div ng-hide="error">
+
+            <div class="row">
+
+                <div class="col-md-6 col-md-offset-3 text-center">
+
+
+
+
+                    <div ng-show="new && !loading">
+
+                        <h3>{{"PLAY_GAME" | translate}}</h3>
+
+                        <form>
+                            <div class="form-group">
+                                <!--<label for="inputlg">Start</label>-->
+                                <input class="form-control input-lg text-center" id="inputlg" type="text" placeholder="{{'START_INPUT_PLACEHOLDER' | translate}}" ng-model="start" uib-typeahead="player as player for player in getPageTitlesForTypeAhead($viewValue)" typeahead-loading="loadingLocations" autocomplete="off" typeahead-wait-ms=100>
+                                <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                                <div ng-show="noResults">
+                                    <i class="glyphicon glyphicon-remove"></i> {{"WIKI_NO_RESULTS_FOUND" | translate}}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <!--<label for="inputlg">Finish</label>-->
+                                <input class="form-control input-lg text-center" id="inputlg" type="text" placeholder="{{'FINISH_INPUT_PLACEHOLDER' | translate}}" ng-model="finish" uib-typeahead="player as player for player in getPageTitlesForTypeAhead($viewValue)" autocomplete="off" typeahead-wait-ms=100>
+                            </div>
+
+                            <button type="submit" class="btn btn-success btn-lg" ng-click="search(start, finish);">{{"WIKI_LETS_START_BUTTON" | translate}}</button>
+                        </form>
+
                     </div>
+
+
+                    <div ng-hide="new || loading">
+
+                        <h1>Von {{start}} zu {{finish}}:</h1>
+
+                        <li ng-repeat="x in names">
+                            {{ x.start.properties.title }}
+                        </li>
+                        <li ng-show="names"> {{finish}}</li>
+
+                        <br>
+                        <button type="button" class="btn btn-success btn-lg" ng-click="new=true;names=null;">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
+
+                    </div>
+
+
+
                 </div>
 
-                <div class="form-group">
-                    <!--<label for="inputlg">Finish</label>-->
-                    <input class="form-control input-lg text-center" id="inputlg" type="text" placeholder="{{'FINISH_INPUT_PLACEHOLDER' | translate}}" ng-model="finish" uib-typeahead="player as player for player in getUsernamesForTypeAhead($viewValue)" autocomplete="off" typeahead-wait-ms=100>
-                </div>
 
-                <button type="submit" class="btn btn-success btn-lg" ng-click="search(start, finish);new=false;">{{"WIKI_LETS_START_BUTTON" | translate}}</button>
-            </form>
+
+
+
+            </div>
+
+
+
+
+            <center><img src="img/hourglass.svg" ng-show="loading" width="33%" alt="Logo" /></center>
+
         </div>
-        <div class="col-sm-3"></div>
+
+
+        <div ng-show="error">
+
+            <h1>Error!</h1>
+
+            <h3>No Internet Connection.</h3>
+
+            <button type="button" class="btn btn-success btn-lg" ng-click="error=false;">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
+
+        </div>
     </div>
-
-
-    <div ng-hide="!names || new">
-
-        <h1>Von {{start}} zu {{finish}}:</h1>
-
-        <li ng-repeat="x in names">
-            {{ x.start.properties.title }}
-        </li>
-        <li ng-show="names"> {{finish}}</li>
-
-        <br>
-        <button type="button" class="btn btn-success btn-lg" ng-click="new=true;names=null;">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
-
-    </div>
-
-    <img src="img/hourglass.svg" ng-show="!names && !new" width="33%" alt="Logo" />
-
-</center>
+</div>

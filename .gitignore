@@ -4,3 +4,4 @@ backend/vendor
 backend/composer.lock
 .brackets.json
 node_modules/*
+nodejs/node_modules/*

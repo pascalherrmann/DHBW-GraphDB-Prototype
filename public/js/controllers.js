@@ -13,13 +13,13 @@ controllers.controller('StartController', ["$scope", "$http", function ($scope, 
 }]);
 
 controllers.controller('InfoController', ["$scope", "$http", function ($scope, $http) {
-  $scope.message = '';
+    $scope.message = '';
 
-    $scope.setMessage = function(){
+    $scope.setMessage = function () {
 
-      $scope.$apply(function(){
-        $scope.message = 'woof woof!';
-      });
+        $scope.$apply(function () {
+            $scope.message = 'woof woof!';
+        });
     };
 
 }]);
@@ -34,21 +34,30 @@ controllers.controller('WikiController', ["$scope", "$http", "$route", "wikiServ
     $scope.start = start
     $scope.finish = finish
 
-    $scope.getAutocomplete = function (subString) {
-        return $http.get("wiki/" + subString).then(function (response) { //hier das Return nicht vergessen! Sosnt gibt die Methode nix zurück!
-                $scope.checkout = response.data
-                return response.data
-            });
-    }
+    $scope.getPageTitlesForTypeAhead = function (val) {
+        return wikiServices.getTypeAhead(val).then(function (response) { //hier das Return nicht vergessen! Sosnt gibt die Methode nix zurück!
+            $scope.checkout = response.data
 
-      $scope.getUsernamesForTypeAhead = function (val) {
-        return wikiServices.getTypeAhead(val);
+            if (response.data.status == "error") {
+                $scope.error = true
+            }
+
+            return response.data
+        });
     };
 
     $scope.search = function (a, b) {
 
-        $http.get("wiki/" + a + "/" + b).then(function (status) { //dann muss auch im Controller then davor
-            $scope.names = status.data;
+        $scope.loading = true
+
+        $http.get("wiki/" + a + "/" + b).then(function (response) { //dann muss auch im Controller then davor
+            $scope.loading = false
+            $scope.names = response.data;
+            if (response.data.status == "error") {
+                $scope.error = true
+            } else {
+                $scope.new = false
+            }
         });
     };
 

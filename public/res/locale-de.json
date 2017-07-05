@@ -1,0 +1,13 @@
+{
+    "ABOUT": "About",
+    "MENU_ITEM_WIKIPEDIA": "Wikipedia-Game",
+    "MENU_ITEM_MAIN": "Integrationsseminar",
+    "MENU_ITEM_INFO": "Info",
+    "PLAY_GAME": "Play the Wikipedia-Game!",
+    "START_INPUT_PLACEHOLDER": "Start",
+    "FINISH_INPUT_PLACEHOLDER": "Finish",
+    "WIKI_LETS_START_BUTTON": "Let's start!",
+    "WIKI_TRY_AGAIN_BUTTON": "Try again",
+    "WIKI_NO_RESULTS_FOUND": "No results found!"
+
+}

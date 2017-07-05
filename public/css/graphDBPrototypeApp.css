@@ -1,0 +1,11 @@
+p.surprise {
+  display: inline-block;
+  padding: 20px;
+  background-color: #6BC47E;
+  color: #FFF;
+  font-family: 'georgia';
+  font-size: 28px;
+  font-style: italic;
+  text-shadow: none;
+  border-radius: 6px;
+}

@@ -22,4 +22,9 @@ class Neo4Adapter implements WikiInterface
         // TODO: Implement autocomplete() method.
     }
 
+    public function randomEntry()
+    {
+        // TODO: Implement randomEntry() method.
+    }
+
 }

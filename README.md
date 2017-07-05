@@ -1,0 +1,1 @@
+# DHBW-GraphDB-Prototype

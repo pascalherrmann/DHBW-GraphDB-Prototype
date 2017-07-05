@@ -1,0 +1,6 @@
+/backend/vendor/*
+.DS_Store
+backend/vendor
+backend/composer.lock
+.brackets.json
+node_modules/*

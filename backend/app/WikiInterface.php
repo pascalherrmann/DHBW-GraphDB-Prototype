@@ -35,4 +35,12 @@ interface WikiInterface
     public function shortestPath(string $start, string $end);
 
 
+    /**
+     * Funktion zur Ausgabe eines zufälligen Eintrags
+     *
+     * @return string
+     */
+    public function randomEntry();
+
+
 }

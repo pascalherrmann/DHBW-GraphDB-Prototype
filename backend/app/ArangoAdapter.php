@@ -18,7 +18,11 @@ class ArangoAdapter implements WikiInterface
 
     public function autocomplete(string $teilwort)
     {
-        // TODO: Implement autocomplete() method.
+
+        $query = "For doc in pages
+    Filter doc.`name`LIKE @name
+    Limit 25
+    Return doc.`name`";
     }
 
     public function shortestPath(string $start, string $end)
@@ -64,12 +68,64 @@ class ArangoAdapter implements WikiInterface
 
     }
 
+    public function randomEntry()
+    {
+        # Verbindung aufbauen
+        $connection = self::getConnection();
+
+        # AQL Query zur Selektion eines zufälligen Eintrages
+        $query = "FOR doc IN @@collection
+                  SORT RAND()
+                  LIMIT 1
+                   RETURN doc.`name`";
+
+        # Statement zur Ausführung der Query erzeugen
+        $statement = new Statement(
+            $connection,
+            array(
+                "query" => $query,
+                "count" => true,
+                "batchSize" => 1000,
+                "sanitize" => true,
+                "bindVars" => array("@collection" => "pages")
+            )
+        );
+
+        # Statement ausführen und Ergebnis
+        $cursor = $statement->execute();
+        return ($cursor->getAll()[0]);
+
+
+
+    }
+
 
     protected function findID($name)
     {
-        echo $name;
-        if( $name == "Hamburg") return "pages/35d7df6ed3d93be2927d14acc5f1fc9a";
-        if ($name == "Deutscher Fluglärmdienst") return "pages/8bb4231574467e9917355468faba6ac8";
+        # Verbindung zu Datenbank herstellen
+        $connection = self::getConnection();
+
+        $query = "  FOR doc IN @@collection
+                    FILTER doc.`name` == @name
+                    RETURN doc.`_id`";
+
+        # Statement zur Ausführung der Query erzeugen
+        $statement = new Statement(
+            $connection,
+            array(
+                "query" => $query,
+                "count" => true,
+                "batchSize" => 1000,
+                "sanitize" => true,
+                "bindVars" => array("@collection" => "pages", "name" => $name)
+            )
+        );
+
+        # Statement ausführen und Ergebnis
+        $cursor = $statement->execute();
+        return ($cursor->getAll()[0]);
+
+
 
     }
 

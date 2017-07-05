@@ -16,4 +16,8 @@ $app->get('/', function () use ($app) {
 });
 
 $app->get('path/{dbsys}/{start}/{ziel}', 'WikiController@getShortestPath');
+
 $app->get('autocomplete/{dbsys}/{substring}', 'WikiController@getAutoComplete');
+
+$app->get('random/{dbsys}', 'WikiController@getRandomEntry');
+

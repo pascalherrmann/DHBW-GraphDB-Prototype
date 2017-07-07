@@ -12,7 +12,7 @@
 */
 
 $app->get('/', function () use ($app) {
-    return $app->version();
+    return "<h1>WikiBackend läuft :) </h1>". $app->version();
 });
 
 $app->get('path/{dbsys}/{start}/{ziel}', 'WikiController@getShortestPath');

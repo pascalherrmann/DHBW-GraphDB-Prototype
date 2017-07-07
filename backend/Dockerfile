@@ -5,6 +5,10 @@ MAINTAINER Pascal Herrmann
 
 COPY . /var/www/html
 
+###### Apache Konfiguration ######
+# Rewrite für htaccess aktivieren #
+RUN a2enmod rewrite
+
 #### Composer install & Update #####
 RUN cd /var/www/html
 
@@ -16,3 +20,5 @@ php composer-setup.php &&\
 php -r "unlink('composer-setup.php');"
 
 RUN ./composer.phar install
+
+RUN chmod 777 -R /var/www/html/storage/

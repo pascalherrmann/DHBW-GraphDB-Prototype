@@ -38,15 +38,14 @@
 
                     <div ng-hide="new || loading">
 
-                        <h1>Von {{start}} zu {{finish}}:</h1>
+                        <h1>Von <i>{{start}}</i> zu <i>{{finish}}</i>:</h1>
 
-                        <li ng-repeat="x in names">
-                            {{ x.start.properties.title }}
-                        </li>
-                        <li ng-show="names"> {{finish}}</li>
+                        <h1 ng-repeat="x in steps">
+                            <span class="label label-success">{{$index + 1}}</span> <span class="label label-primary"> {{ x }}</span>
+                        </h1>
 
                         <br>
-                        <button type="button" class="btn btn-success btn-lg" ng-click="new=true;names=null;">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
+                        <button type="button" class="btn btn-success btn-lg" ng-click="new=true;steps=null;">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
 
                     </div>
 

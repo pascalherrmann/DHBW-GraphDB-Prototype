@@ -9,3 +9,18 @@ p.surprise {
   text-shadow: none;
   border-radius: 6px;
 }
+
+.vertical-center {
+  min-height: 80%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 80vh; /* These two lines are counted as one :-)       */
+  display: flex;
+  align-items: center;
+}
+
+.white {
+    color:#ffffff !important;
+}
+
+.main-background {
+    background-color:#004a93 !important;
+}

@@ -1,0 +1,16 @@
+{
+  "name": "node-graphdb-prototype",
+  "version": "0.0.1",
+  "description": "A prototype for our graph database project @DHBW.",
+  "main": "server.js",
+  "author": "Pascal Herrmann",
+  "dependencies": {
+    "body-parser": "^1.4.3",
+    "express": "^4.13.4",
+    "method-override": "^2.1.3",
+    "morgan": "^1.1.1",
+    "neo4j-driver": "^1.0.4",
+    "lodash": "^4.15.0"
+  },
+  "scripts": { "start": "node server.js" }
+}

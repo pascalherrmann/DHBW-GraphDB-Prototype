@@ -42,7 +42,7 @@ class Neo4Adapter implements WikiInterface
         try {
             $path = ($this->client->run($query, $parameters)->getRecord()->value('p'));
             $response->status = "SUCCESS";
-        } catch(\RuntimeException $e) {
+        } catch (\RuntimeException $e) {
             $response->status = "ERROR";
             $response->message = $e->getMessage();
             $response->code = $e->getCode();
@@ -58,13 +58,10 @@ class Neo4Adapter implements WikiInterface
         }
 
 
-
         $response->nodes = $steps;
 
 
         return json_encode($response, JSON_UNESCAPED_UNICODE);
-
-
 
 
     }
@@ -76,17 +73,11 @@ class Neo4Adapter implements WikiInterface
 
     public function randomEntry()
     {
-       $client = self::getClient();
+        $client = self::getClient();
 
 
-       $query = 'CREATE (database:Database {name:"Neo4j"})-[r:SAYS]->(message:Message {name:"Hello World!"}) RETURN database, message, r';
+        $query = 'CREATE (database:Database {name:"Neo4j"})-[r:SAYS]->(message:Message {name:"Hello World!"}) RETURN database, message, r';
 
-       $result = $client->run($query);
-       return $result;
-
+        $result = $client->run($query);
     }
-
-
-
-
 }

@@ -5,4 +5,4 @@ backend/composer.lock
 .brackets.json
 node_modules/*
 .idea/*
-.idea/
+nodejs/node_modules/*

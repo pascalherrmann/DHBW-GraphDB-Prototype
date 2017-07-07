@@ -1,0 +1,22 @@
+version: '2'
+services:
+  neo4j-wiki:
+    build: ./infrastructure/neo4j
+    image: neotest
+    restart: always
+    ports:
+      - "7474:7474" #zweite Zahl weg, wenn dynamisch!
+      - "7687:7687"
+  my_application:
+    build: .
+    depends_on:
+      - neo4j-wiki
+    image: nodetest
+    links:
+      - neo4j-wiki:neoAlias
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      ENV_NEO4J_HOST: neoAlias
+     #ENV_NEO4J_PW: neo4j

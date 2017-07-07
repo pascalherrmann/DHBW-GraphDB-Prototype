@@ -22,6 +22,11 @@ class Neo4Adapter implements WikiInterface
      */
     public function __construct()
     {
+        if (array_key_exists('USER_NEO', $_ENV) == false) $_ENV['USER_NEO']='neo4j';
+        if (array_key_exists('PWD_NEO', $_ENV) == false) $_ENV['PWD_NEO']='neo';
+        if (array_key_exists('HOST_NEO', $_ENV) == false) $_ENV['HOST_NEO']='localhost';
+        if (array_key_exists('PORT_NEO', $_ENV) == false) $_ENV['PORT_NEO']='7687';
+
         $this->client = ClientBuilder::create()
             ->addConnection('bolt', 'bolt://'.$_ENV['USER_NEO'].':'.$_ENV['PWD_NEO'].'@'.$_ENV['HOST_NEO'].':'.$_ENV['PORT_NEO'])
             ->build();

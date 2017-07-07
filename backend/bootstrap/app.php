@@ -23,16 +23,6 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
-# Umgebungsvariablen setzen falls nicht durch Docker definiert:
-if ($_ENV['USER_NEO'] == null) $_ENV['USER_NEO'] = 'neo4j';
-if ($_ENV['PWD_NEO'] == null) $_ENV['PWD_NEO'] = 'neo';
-if ($_ENV['HOST_NEO'] == null) $_ENV['HOST_NEO'] = 'localhost';
-if ($_ENV['PORT_NEO'] == null) $_ENV['PORT_NEO'] = '7687';
-
-if ($_ENV['USER_ARANGO'] == null) $_ENV['USER_ARANGO'] = 'root';
-if ($_ENV['PWD_ARANGO'] == null) $_ENV['PWD_ARANGO'] = '';
-if ($_ENV['HOST_ARANGO'] == null) $_ENV['HOST_ARANGO'] = '127.0.0.1';
-if ($_ENV['PORT_ARANGO'] == null) $_ENV['PORT_ARANGO'] = '8529';
 
 
 

@@ -23,6 +23,13 @@ class ArangoAdapter implements WikiInterface
      */
     public function __construct()
     {
+
+        if (array_key_exists('USER_ARANGO',$_ENV) == false) $_ENV['USER_ARANGO']='root';
+        if (array_key_exists('PWD_ARANGO',$_ENV) == false) $_ENV['PWD_ARANGO']='';
+        if (array_key_exists('HOST_ARANGO',$_ENV) == false) $_ENV['HOST_ARANGO']='127.0.0.1';
+        if (array_key_exists('PORT_ARANGO',$_ENV) == false)$_ENV['PORT_ARANGO']='8529';
+
+
         $connectionOptions = array(
             // server endpoint to connect to
             ConnectionOptions::OPTION_ENDPOINT => 'tcp://'.$_ENV['HOST_ARANGO'].':'.$_ENV['PORT_ARANGO'],

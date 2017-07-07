@@ -5,3 +5,5 @@ bigEcho () {
 }
 
 bigEcho "Hallo und Herzlich Willkommen zum Wikipedia-Import bei ARRANGODB!"
+
+arangorestore --input-directory "data/dump"

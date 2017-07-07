@@ -78,7 +78,7 @@ class Neo4Adapter implements WikiInterface
 
     public function randomEntry()
     {
-        $client = self::getClient();
+
 
 
         $query = 'CREATE (database:Database {name:"Neo4j"})-[r:SAYS]->(message:Message {name:"Hello World!"}) RETURN database, message, r';

@@ -25,13 +25,13 @@ class ArangoAdapter implements WikiInterface
     {
         $connectionOptions = array(
             // server endpoint to connect to
-            ConnectionOptions::OPTION_ENDPOINT => 'tcp://127.0.0.1:8529',
+            ConnectionOptions::OPTION_ENDPOINT => 'tcp://'.$_ENV['HOST_ARANGO'].':'.$_ENV['PORT_ARANGO'],
             // authorization type to use (currently supported: 'Basic')
             ConnectionOptions::OPTION_AUTH_TYPE => 'Basic',
             // user for basic authorization
-            ConnectionOptions::OPTION_AUTH_USER => 'root',
+            ConnectionOptions::OPTION_AUTH_USER => $_ENV['USER_ARANGO'],
             // password for basic authorization
-            ConnectionOptions::OPTION_AUTH_PASSWD => '',
+            ConnectionOptions::OPTION_AUTH_PASSWD => $_ENV['PWD_ARANGO'],
             // connection persistence on server. can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
             ConnectionOptions::OPTION_CONNECTION => 'Close',
             // connect timeout in seconds

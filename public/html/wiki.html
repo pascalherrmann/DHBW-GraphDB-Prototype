@@ -68,14 +68,16 @@
         </div>
 
 
-        <div ng-show="error">
+        <div ng-show="error"><center>
 
-            <h1>Error!</h1>
+            <h1>{{"CONNECTION_ERROR" | translate}}</h1>
 
-            <h3>No Internet Connection.</h3>
+            <h3>{{"CONNECTION_ERROR_INFO" | translate}}</h3>
+
+            <br>
 
             <button type="button" class="btn btn-success btn-lg" ng-click="error=false;">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
 
-        </div>
+        </center></div>
     </div>
 </div>

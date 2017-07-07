@@ -9,11 +9,18 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var _ = require('lodash');
 var neo4j = require('neo4j-driver').v1;
-var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "asdf"));
 
-var UMGEBUNGSVARIABLE = process.env.UMGEBUNGSVARIABLE;
+// dafür in Shell: $ export ENV_NEO4J_PW=neo4j
+var ENV_NEO4J_HOST = process.env.ENV_NEO4J_HOST;
+var ENV_NEO4J_PW = process.env.ENV_NEO4J_PW;
 
-app.use(express.static(__dirname + '/../public'));                 // set the static files location /public/img will be /img for users
+if(!ENV_NEO4J_HOST) ENV_NEO4J_HOST = "localhost"
+if(!ENV_NEO4J_PW) ENV_NEO4J_PW = "asdf"
+
+console.log("Neo4j-Host="+ENV_NEO4J_HOST+" | Neo4j-Password="+ENV_NEO4J_PW)
+var driver = neo4j.driver("bolt://"+ENV_NEO4J_HOST, neo4j.auth.basic("neo4j", ENV_NEO4J_PW));
+
+app.use(express.static(__dirname + '/../public'));              // set the static files location /public/img will be /img for users
 app.use(morgan('dev'));                                         // log every request to the console
 app.use(bodyParser.urlencoded({'extended': 'true'}));           // parse application/x-www-form-urlencoded
 app.use(bodyParser.json());                                     // parse application/json

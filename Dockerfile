@@ -1,9 +1,20 @@
-###### Image basiert auf PHP + Apache-Server ######
-FROM php:7.0-apache
+# Image basiert auf Node.js (d.h. Node.js ist bereits installiert)
+FROM node
 
-MAINTAINER Pascal Herrmann
+# App-Verzeichnis erstellen und als Work-Directory festlegen
+RUN mkdir -p /app
+WORKDIR /app
 
-###### Source-Code kopieren ######
-#COPY public /var/www/html
-#COPY backend /var/www/backend
-COPY . /var/www/html
+# Abhängigkeiten installieren (vor Source kopieren, damit im Cache bei Sourcecode Änderungen!)
+COPY nodejs/package.json /app/
+RUN npm install
+
+# Source-Code kopieren
+COPY public /public
+COPY nodejs /app
+
+
+
+# Port freigeben
+EXPOSE 8080
+CMD [ "npm", "start" ]

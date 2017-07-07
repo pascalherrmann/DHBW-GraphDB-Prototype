@@ -10,6 +10,8 @@
     "WIKI_TRY_AGAIN_BUTTON": "Try again",
     "WIKI_NO_RESULTS_FOUND": "No results found!",
     "WELCOME": "Herzlich Willkommen!",
-    "MAIN_TITLE": "Integrationsseminar"
+    "MAIN_TITLE": "Integrationsseminar",
+    "CONNECTION_ERROR_INFO":"Could not connect to database.",
+    "CONNECTION_ERROR": "Error!"
 
 }

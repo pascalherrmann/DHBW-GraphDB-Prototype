@@ -3,13 +3,23 @@
 
 version: '2'
 services:
+  neo4j-wiki:
+    image: neotest
+    restart: always
+    ports:
+      - "7474:7474" #zweite Zahl weg, wenn dynamisch!
+      - "7687:7687"
   my_application:
     build: .
+    depends_on:
+      - neo4j-wiki
     image: phptest
+    links:
+      - neo4j-wiki:neoAlias
     ports:
       - "80"
     restart: always
     environment:
-      ENV_NEO4J_HOST: neoAlias
       USER_NEO: neo4j
-      HOST_NEO: 127.0.0.1
+      PWD_NEO: neo
+      HOST_NEO: neoAlias

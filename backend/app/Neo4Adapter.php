@@ -23,7 +23,7 @@ class Neo4Adapter implements WikiInterface
     public function __construct()
     {
         $this->client = ClientBuilder::create()
-            ->addConnection('bolt', 'bolt://neo4j:neo@localhost:7687')
+            ->addConnection('bolt', 'bolt://'.$_ENV['USER_NEO'].':'.$_ENV['PWD_NEO'].'@'.$_ENV['HOST_NEO'].':'.$_ENV['PORT_NEO'])
             ->build();
     }
 

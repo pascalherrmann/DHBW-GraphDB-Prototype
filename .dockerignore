@@ -1,3 +1,4 @@
 #Diese Datei schließt Ordner aus (z.B. node_modules), die nicht zum Build-Kontext von Docker gehören.
 #Dadurch werden sie bei COPY . z.B. nicht ins Image kopiert
 node_modules
+nodejs/node_modules

@@ -3,16 +3,22 @@ FROM php:7.0-apache
 
 MAINTAINER Pascal Herrmann
 
-###### Source-Code kopieren ######
 COPY . /var/www/html
+
+###### Apache Konfiguration ######
+# Rewrite für htaccess aktivieren #
+RUN a2enmod rewrite
 
 #### Composer install & Update #####
 RUN cd /var/www/html
 
+RUN apt-get update && apt-get install -y git zip unzip
+
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&\
 php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" &&\
 php composer-setup.php &&\
-php -r "unlink('composer-setup.php');" &&\
+php -r "unlink('composer-setup.php');"
 
-RUN composer install
+RUN ./composer.phar install
 
+RUN chmod 777 -R /var/www/html/storage/

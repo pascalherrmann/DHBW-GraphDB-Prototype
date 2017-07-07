@@ -1,6 +1,8 @@
 ###### Image basiert auf PHP + Apache-Server ######
 FROM neo4j
 
+MAINTAINER Pascal Herrmann
+
 WORKDIR /
 
 COPY import.sh .

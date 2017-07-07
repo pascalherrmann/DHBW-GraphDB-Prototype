@@ -1,5 +1,7 @@
 FROM arangodb
 
+MAINTAINER Pascal Herrmann
+
 COPY data /data
 
 COPY import.sh .

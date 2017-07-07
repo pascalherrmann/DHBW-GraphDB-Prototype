@@ -52,7 +52,13 @@ controllers.controller('WikiController', ["$scope", "$http", "$route", "wikiServ
 
         $http.get("wiki/" + a + "/" + b).then(function (response) { //dann muss auch im Controller then davor
             $scope.loading = false
-            $scope.names = response.data;
+
+            $scope.steps = response.data.map(function (item) {
+                return item.start.properties.title;
+            });
+
+            $scope.steps.push($scope.finish)
+
             if (response.data.status == "error") {
                 $scope.error = true
             } else {

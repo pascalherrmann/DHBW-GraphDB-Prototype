@@ -1,0 +1,15 @@
+#docker exec -i -t 6 /bin/bash
+#docker run -p 80 -e USER_NEO='neo4j' -e PWD_NEO="neo" -e HOST_NEO="localhost" -e PORT_NEO="7687" phptest
+
+version: '2'
+services:
+  my_application:
+    build: .
+    image: phptest
+    ports:
+      - "80"
+    restart: always
+    environment:
+      ENV_NEO4J_HOST: neoAlias
+      USER_NEO: neo4j
+      HOST_NEO: 127.0.0.1

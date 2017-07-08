@@ -27,94 +27,99 @@ controllers.controller('InfoController', ["$scope", "$http", function ($scope, $
 controllers.controller('WikiController', ["$scope", "$http", "$route", "wikiServices", function ($scope, $http, $route, wikiServices) {
 
 
-    $scope.status = "new"
-    var start = $route.current.params.START;
+        $scope.status = "NEW"
 
-    var finish = $route.current.params.FINISH;
+        var start = $route.current.params.START;
+        var finish = $route.current.params.FINISH;
+        $scope.start = start
+        $scope.finish = finish
 
-    $scope.start = start
-    $scope.finish = finish
+        $scope.getPageTitlesForTypeAhead = function (val) {
 
-    $scope.getPageTitlesForTypeAhead = function (val) {
+            var escaped = val.replace(/\//g, '%2F');
 
-        var escaped = val.replace(/\//g, '%2F');
+            return wikiServices.getTypeAhead(escaped).then(function (response) { //hier das Return nicht vergessen! Sosnt gibt die Methode nix zurück!
 
-        return wikiServices.getTypeAhead(escaped).then(function (response) { //hier das Return nicht vergessen! Sosnt gibt die Methode nix zurück!
-
-            if (response.data.status != "success") {
-                $scope.status = "error"
-                return []
-            } else {
-                return response.data.titles
-            }
-
-        });
-    };
-
-
-    $scope.getRandom = function (isStart) {
-
-        // Problem: Asynchron. Man kann schwer etwas von der Methode zurückgeben, wenn Zeit unklar.
-        // Eher: man kann etwas mit dem Ergebnis machen, sobald es verfügbar ist.
-
-        return wikiServices.getRandom().then(function (response) { //hier das Return nicht vergessen! Sosnt gibt die Methode nix zurück!
-
-            if (response.data.status != "success") {
-                $scope.status = "error"
-            } else {
-
-                if (isStart) {
-                    $scope.start = response.data.randomTitle
+                if (response.data.status != "SUCCESS") {
+                    $scope.status = "ERROR"
+                    $scope.errorCode = response.data.code
+                    return []
                 } else {
-                    $scope.finish = response.data.randomTitle
+                    return response.data.titles
                 }
-            }
 
-        });
-    };
-
-    String.prototype.replaceAll = function (search, replacement) {
-        var target = this;
-        return target.split(search).join(replacement);
-    };
-
-    $scope.search = function (a, b) {
+            });
+        };
 
 
-        var escapedA = a.replace(/\//g, '%2F');
-        var escapedB = b.replace(/\//g, '%2F');
+        $scope.getRandom = function (isStart) {
 
-        $scope.status = "loading"
+            // Problem: Asynchron. Man kann schwer etwas von der Methode zurückgeben, wenn Zeit unklar.
+            // Eher: man kann etwas mit dem Ergebnis machen, sobald es verfügbar ist.
 
-        $http.get("wiki/" + escapedA + "/" + escapedB).then(function (response) { //dann muss auch im Controller then davor
+            return wikiServices.getRandom().then(function (response) { //hier das Return nicht vergessen! Sosnt gibt die Methode nix zurück!
 
-            $scope.loading = false
-            $scope.status = response.data.status
+                if (response.data.status != "SUCCESS") {
+                    $scope.status = "ERROR"
+                    $scope.errorCode = response.data.code
+                } else {
+
+                    if (isStart) {
+                        $scope.start = response.data.randomTitle
+                    } else {
+                        $scope.finish = response.data.randomTitle
+                    }
+                }
+
+            }).catch(function (error) {
+                console.log(error);
+                $scope.status = "ERROR"
+                $scope.errorCode = "FRONTEND"
+            });
+        };
+
+        String.prototype.replaceAll = function (search, replacement) {
+            var target = this;
+            return target.split(search).join(replacement);
+        };
+
+        $scope.search = function (a, b) {
+
+            console.log("joo")
 
 
-            if (response.data.status == "success") {
-                $scope.new = false
+            var escapedA = a.replace(/\//g, '%2F');
+            var escapedB = b.replace(/\//g, '%2F');
 
-                var allSteps = response.data.steps
-                allSteps.push($scope.finish)
+            $scope.status = "LOADING"
 
-                $scope.steps = allSteps
-            } else if (response.data.status == undefined) {
-                $scope.status = "error"
-            }
-        });
-    };
+            $http.get("wiki/" + escapedA + "/" + escapedB).then(function (response) { //dann muss auch im Controller then davor
 
-    if ($scope.start != undefined && $scope.finish != undefined) {
-        $scope.search(start, finish)
-    } else {
-        $scope.new = true
-    }
+                $scope.status = response.data.status
 
-}]);
+                if (response.data.status == "SUCCESS") {
+                    $scope.steps = response.data.steps
+                } else if (response.data.status == undefined) {
+                    $scope.status = "ERROR"
+                    $scope.errorCode = response.data.code
+                }
+            }).catch(function (error) {
+                console.log(error);
+                $scope.status = "ERROR"
+                $scope.errorCode = "FRONTEND"
+            });
 
-/*
+        }
+
+        if ($scope.start != undefined && $scope.finish != undefined) {
+            $scope.search(start, finish)
+        } else {
+            $scope.status = "NEW"
+        }
+
+}])
+    /*
 
 
-So ist Spitze! Man macht nicht isError, isNothingFound und isSuccess, sondern ein Status!!!! Für jede mögliche Antowrt!!!
-*/
+    So ist Spitze! Man macht nicht isError, isNothingFound und isSuccess, sondern ein Status!!!! Für jede mögliche Antowrt!!!
+    */

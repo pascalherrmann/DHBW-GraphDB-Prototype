@@ -18,14 +18,14 @@ module.exports = function (app, driver) {
 
                 session.close();
                     res.json({
-                        "status": "success",
+                        "status": "SUCCESS",
                         "titles": titles
                     });
             })
             .catch(function (error) {
                 console.log(error);
                 res.json({
-                    "status": "error",
+                    "status": "ERROR",
                     "code": "NO_CONNECTION"
                 });
             });
@@ -46,7 +46,7 @@ module.exports = function (app, driver) {
 
                 if (result.records.length == 0) {
                     res.json({
-                        "status": "no_path_found"
+                        "status": "NO_PATH_FOUND"
                     });
                 } else {
 
@@ -58,10 +58,14 @@ module.exports = function (app, driver) {
                         return item.start.properties.title;
                     });
 
+                    if (steps.length > 0 ){
+                        steps.push(finish)
+                    }
+
                     console.log(steps)
 
                     res.json({
-                        "status": "success",
+                        "status": "SUCCESS",
                         "steps": steps
                     });
                 }
@@ -71,7 +75,7 @@ module.exports = function (app, driver) {
             .catch(function (error) {
                 console.log(error);
                 res.json({
-                    "status": "error",
+                    "status": "ERROR",
                     "code": "NO_CONNECTION"
                 });
 
@@ -90,7 +94,7 @@ module.exports = function (app, driver) {
                 onNext: function (record) {
                     result = record.get('random')
                     res.json({
-                        "status": "success",
+                        "status": "SUCCESS",
                         "randomTitle": result
                     });                },
                 onCompleted: function () {
@@ -99,7 +103,7 @@ module.exports = function (app, driver) {
                 onError: function (error) {
                     console.log(error);
                     res.json({
-                        "status": "error",
+                        "status": "ERROR",
                         "code": "NO_CONNECTION"
                     });
                 }

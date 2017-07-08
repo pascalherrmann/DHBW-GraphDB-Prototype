@@ -12,6 +12,8 @@
     "WELCOME": "Herzlich Willkommen!",
     "MAIN_TITLE": "Integrationsseminar",
     "CONNECTION_ERROR_INFO":"Could not connect to database.",
-    "CONNECTION_ERROR": "Error!"
-
+    "CONNECTION_ERROR": "Error!",
+    "ERROR_INFO_": "Something went wrong!",
+    "ERROR_INFO_FRONTEND": "Something went wrong! (You can check your browser logs.)",
+    "ERROR_INFO_NO_CONNECTION": "Could not connect to database."
 }

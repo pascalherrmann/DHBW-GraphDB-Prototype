@@ -10,7 +10,7 @@
 
 
 
-                <div ng-show="status=='new'">
+                <div ng-show="status=='NEW'">
 
                     <h3>{{"PLAY_GAME" | translate}}</h3>
 
@@ -50,7 +50,7 @@
         </div>
 
 
-        <div ng-show="status=='success'" class="text-center">
+        <div ng-show="status=='SUCCESS'" class="text-center">
 
             <h1><small>von</small> <i>{{start}}</i> <small>zu</small> <i>{{finish}}</i>:</h1>
 
@@ -59,7 +59,7 @@
                         </h1>
 
             <br>
-            <button type="button" class="btn btn-success btn-lg" ng-click="status='new';steps=null;">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
+            <button type="button" class="btn btn-success btn-lg" ng-click="status='NEW';steps=null;">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
 
         </div>
 
@@ -72,30 +72,30 @@
 
 
 
-        <center><img src="img/hourglass.svg" ng-show="status=='loading'" width="33%" alt="Logo" /></center>
+        <center><img src="img/hourglass.svg" ng-show="status=='LOADING'" width="33%" alt="Logo" /></center>
 
 
 
-        <div ng-show="status=='error'">
+        <div ng-show="status=='ERROR'">
             <center>
 
                 <h1>{{"CONNECTION_ERROR" | translate}}</h1>
 
-                <h3>{{"CONNECTION_ERROR_INFO" | translate}}</h3>
+                <h3>{{ "ERROR_INFO_"+errorCode| translate}}</h3>
 
                 <br>
 
-                <button type="button" class="btn btn-success btn-lg" ng-click="status='new';">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
+                <button type="button" class="btn btn-success btn-lg" ng-click="status='NEW';">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
 
             </center>
         </div>
 
-        <div ng-show="status=='no_path_found'">
+        <div ng-show="status=='NO_PATH_FOUND'">
             <center>
 
                 <h1>You won! No Path was found!</h1>
 
-                <button type="button" class="btn btn-success btn-lg" ng-click="status='new';">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
+                <button type="button" class="btn btn-success btn-lg" ng-click="status='NEW';">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
 
             </center>
         </div>

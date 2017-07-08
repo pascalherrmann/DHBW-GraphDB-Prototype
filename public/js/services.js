@@ -7,6 +7,9 @@ services.factory("wikiServices", ["$http", function ($http) {
         },
         getPath: function (start, finish) {
             return $http.get("wiki/"+start+"/"+finish);
+        },
+        getRandom: function () {
+            return $http.get("random");
         }
     };
 

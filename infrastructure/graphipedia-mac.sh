@@ -11,25 +11,24 @@ if [ -z ${1+x} ];
     else echo "We will download the following wiki: '$1'"; language=$1;
 fi
 
-bigEcho "Important: You will need git, java, maven for the installation!"
-sleep 3
+echo "Important: You will need git, java and maven for the installation!"
+sleep 5
 
-echo "Downloading graphipedia"
+echo "First, let's clone the graphipedia-repository."
 git clone git://github.com/mirkonasato/graphipedia.git
 cd graphipedia/
 
-bigEcho "Starting Maven!"
+bigEcho "Now, let's install its dependencies with Maven."
 mvn install
 
-bigEcho "Downloading Wikipedia Dump"
+bigEcho "Alright. Now we'll download the wikipedia dump for language '${language}' from:"
 echo "http://dumps.wikimedia.org/${language}wiki/latest/${language}wiki-latest-pages-articles.xml.bz2"
 curl -L -O "http://dumps.wikimedia.org/${language}wiki/latest/${language}wiki-latest-pages-articles.xml.bz2"
 
-bigEcho "Und entpacken ihn nun"
+bigEcho "Awesome. Now, let's extract it."
 bzip2 -d ${language}wiki-latest-pages-articles.xml.bz2
 
-bigEcho "Jetzt wird das Skript gestartet:"
-echo "Erst parsen der Links"
+bigEcho "OK, or preparations are done. Now we will start Graphipedia. First, to extract all the links from the downloaded XML-file.:"
 java -classpath ./graphipedia-dataimport/target/graphipedia-dataimport.jar org.graphipedia.dataimport.ExtractLinks ${language}wiki-latest-pages-articles.xml final-${language}wiki-links.xml
 
 echo "Dann erstellen der Neo4j-Datenbank"

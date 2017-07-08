@@ -2,81 +2,104 @@
 
     <div class="container">
 
-        <div ng-hide="error">
 
-            <div class="row">
+        <div class="row">
 
-                <div class="col-md-6 col-md-offset-3 text-center">
-
+            <div class="col-md-6 col-md-offset-3 text-center">
 
 
 
-                    <div ng-show="new && !loading">
 
-                        <h3>{{"PLAY_GAME" | translate}}</h3>
+                <div ng-show="status=='new'">
 
-                        <form>
-                            <div class="form-group">
-                                <!--<label for="inputlg">Start</label>-->
+                    <h3>{{"PLAY_GAME" | translate}}</h3>
+
+                    <form>
+                        <div class="form-group">
+                            <!--<label for="inputlg">Start</label>-->
+                            <div class="input-group">
                                 <input class="form-control input-lg text-center" id="inputlg" type="text" placeholder="{{'START_INPUT_PLACEHOLDER' | translate}}" ng-model="start" uib-typeahead="player as player for player in getPageTitlesForTypeAhead($viewValue)" typeahead-loading="loadingLocations" autocomplete="off" typeahead-wait-ms=100>
-                                <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-                                <div ng-show="noResults">
-                                    <i class="glyphicon glyphicon-remove"></i> {{"WIKI_NO_RESULTS_FOUND" | translate}}
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-lg" ng-click="getRandom(true)"><i class="glyphicon glyphicon-random"></i></button>
                                 </div>
                             </div>
+                            <!--
+                            <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                            <div ng-show="noResults">
+                                <i class="glyphicon glyphicon-remove"></i> {{"WIKI_NO_RESULTS_FOUND" | translate}}
+                            </div>-->
+                        </div>
 
-                            <div class="form-group">
+                        <div class="form-group">
+                            <div class="input-group">
+
                                 <!--<label for="inputlg">Finish</label>-->
                                 <input class="form-control input-lg text-center" id="inputlg" type="text" placeholder="{{'FINISH_INPUT_PLACEHOLDER' | translate}}" ng-model="finish" uib-typeahead="player as player for player in getPageTitlesForTypeAhead($viewValue)" autocomplete="off" typeahead-wait-ms=100>
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-lg" ng-click="getRandom(false)"><i class="glyphicon glyphicon-random"></i></button>
+                                </div>
                             </div>
+                        </div>
 
-                            <button type="submit" class="btn btn-success btn-lg" ng-click="search(start, finish);">{{"WIKI_LETS_START_BUTTON" | translate}}</button>
-                        </form>
-
-                    </div>
-
-
-                    <div ng-hide="new || loading">
-
-                        <h1>Von <i>{{start}}</i> zu <i>{{finish}}</i>:</h1>
-
-                        <h1 ng-repeat="x in steps">
-                            <span class="label label-success">{{$index + 1}}</span> <span class="label label-primary"> {{ x }}</span>
-                        </h1>
-
-                        <br>
-                        <button type="button" class="btn btn-success btn-lg" ng-click="new=true;steps=null;">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
-
-                    </div>
-
-
+                        <button type="submit" class="btn btn-success btn-lg" ng-click="search(start, finish);" ng-disabled="!start || !finish">{{"WIKI_LETS_START_BUTTON" | translate}}</button>
+                    </form>
 
                 </div>
-
-
-
-
-
             </div>
-
-
-
-
-            <center><img src="img/hourglass.svg" ng-show="loading" width="33%" alt="Logo" /></center>
 
         </div>
 
 
-        <div ng-show="error"><center>
+        <div ng-show="status=='success'" class="text-center">
 
-            <h1>{{"CONNECTION_ERROR" | translate}}</h1>
+            <h1><small>von</small> <i>{{start}}</i> <small>zu</small> <i>{{finish}}</i>:</h1>
 
-            <h3>{{"CONNECTION_ERROR_INFO" | translate}}</h3>
+            <h1 ng-repeat="x in steps">
+                            <span class="label label-success">{{$index + 1}}</span> <span class="label label-primary"> {{ x }}</span>
+                        </h1>
 
             <br>
+            <button type="button" class="btn btn-success btn-lg" ng-click="status='new';steps=null;">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
 
-            <button type="button" class="btn btn-success btn-lg" ng-click="error=false;">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
+        </div>
 
-        </center></div>
+
+
+
+
+
+
+
+
+
+        <center><img src="img/hourglass.svg" ng-show="status=='loading'" width="33%" alt="Logo" /></center>
+
+
+
+        <div ng-show="status=='error'">
+            <center>
+
+                <h1>{{"CONNECTION_ERROR" | translate}}</h1>
+
+                <h3>{{"CONNECTION_ERROR_INFO" | translate}}</h3>
+
+                <br>
+
+                <button type="button" class="btn btn-success btn-lg" ng-click="status='new';">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
+
+            </center>
+        </div>
+
+        <div ng-show="status=='no_path_found'">
+            <center>
+
+                <h1>You won! No Path was found!</h1>
+
+                <button type="button" class="btn btn-success btn-lg" ng-click="status='new';">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
+
+            </center>
+        </div>
+
+
     </div>
 </div>

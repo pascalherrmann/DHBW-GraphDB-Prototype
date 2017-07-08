@@ -1,23 +1,38 @@
-# Image basiert auf Node.js (d.h. Node.js ist bereits installiert)
-FROM node
+###### Image basiert auf PHP + Apache-Server ######
+FROM php:7.1-apache
 
 MAINTAINER Pascal Herrmann
 
-# App-Verzeichnis erstellen und als Work-Directory festlegen
-RUN mkdir -p /app
-WORKDIR /app
+# Backend kopieren (PHP-Dateien) - muss in www
+COPY ./backend /var/www/backend
 
-# Abhängigkeiten installieren (vor Source kopieren, damit im Cache bei Sourcecode Änderungen!)
-COPY nodejs/package.json /app/
+# Frontend kopieren (JS) - muss immer in html
+COPY ./public /var/www/html
 
-RUN npm install
+###### Apache Konfiguration ######
+# Rewrite für htaccess aktivieren #
+RUN a2enmod rewrite
 
-# Source-Code kopieren
-COPY public /public
-COPY nodejs /app
+COPY ./backend/php.ini /usr/local/etc/php/
+
+#### Composer install & Update #####
+RUN cd /var/www/html
+
+RUN apt-get update && apt-get install -y git zip unzip vim
+
+RUN docker-php-ext-install bcmath
+
+WORKDIR /var/www/backend
+
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&\
+php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" &&\
+php composer-setup.php &&\
+php -r "unlink('composer-setup.php');"
 
 
+RUN ./composer.phar install
 
-# Port freigeben
-EXPOSE 8080
-CMD [ "npm", "start" ]
+WORKDIR /var/www/html
+
+RUN chmod 777 -R /var/www/backend/storage/
+

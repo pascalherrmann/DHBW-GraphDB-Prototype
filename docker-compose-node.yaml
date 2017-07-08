@@ -1,26 +1,24 @@
 version: '2'
 services:
   neo4j-wiki:
-    build:
-      context: ./infrastructure/neo4j
-      args:
-        wikilanguage: bar
+    build: ./infrastructure/neo4j
     image: neotest
     restart: always
     ports:
       - "7474:7474"
       - "7687:7687"
   my_application:
-    build: .
+    build:
+        context: .
+        dockerfile: Dockerfile-node
     depends_on:
       - neo4j-wiki
-    image: phptest
+    image: nodetest
     links:
       - neo4j-wiki:neoAlias
     ports:
-      - "80:80"
+      - "8080:8080"
     restart: always
     environment:
-      USER_NEO: neo4j
-      PWD_NEO: neo
-      HOST_NEO: neoAlias
+      ENV_NEO4J_HOST: neoAlias
+     #ENV_NEO4J_PW: neo4j

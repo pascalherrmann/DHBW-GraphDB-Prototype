@@ -15,7 +15,7 @@ var ENV_NEO4J_HOST = process.env.ENV_NEO4J_HOST;
 var ENV_NEO4J_PW = process.env.ENV_NEO4J_PW;
 
 if(!ENV_NEO4J_HOST) ENV_NEO4J_HOST = "localhost"
-if(!ENV_NEO4J_PW) ENV_NEO4J_PW = "asdf"
+if(!ENV_NEO4J_PW) ENV_NEO4J_PW = "neo"
 
 console.log("Neo4j-Host="+ENV_NEO4J_HOST+" | Neo4j-Password="+ENV_NEO4J_PW)
 var driver = neo4j.driver("bolt://"+ENV_NEO4J_HOST, neo4j.auth.basic("neo4j", ENV_NEO4J_PW));

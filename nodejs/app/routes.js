@@ -3,26 +3,31 @@ module.exports = function (app, driver) {
     app.get('/wiki/:subString', function (req, res) {
 
         var subString = req.params.subString
-        var final = []
         var session = driver.session();
 
         session.run(
                 'start n = node(*) where n.title =~ {subString} return n.title LIMIT 10', {
                     subString: ".*" + subString + ".*"
                 })
-            .subscribe({
-                onNext: function (record) {
+            .then(function (result) {
+                var titles = []
+                result.records.forEach(function (record) {
                     title = record.get('n.title');
-                    final.push(title);
-                },
-                onCompleted: function () {
-                    session.close();
-                    res.json(final);
-                },
-                onError: function (error) {
-                    console.log(error);
-                    res.json({"status":"error", "code":"NO_CONNECTION"}); // return all todos in JSON format
-                }
+                    titles.push(title);
+                });
+
+                session.close();
+                    res.json({
+                        "status": "success",
+                        "titles": titles
+                    });
+            })
+            .catch(function (error) {
+                console.log(error);
+                res.json({
+                    "status": "error",
+                    "code": "NO_CONNECTION"
+                });
             });
 
     });
@@ -37,17 +42,66 @@ module.exports = function (app, driver) {
                 startParam: start,
                 endParam: finish
             })
+            .then(function (result) {
+
+                if (result.records.length == 0) {
+                    res.json({
+                        "status": "no_path_found"
+                    });
+                } else {
+
+                    result.records.forEach(function (record) {
+                        response = record.get('name').segments
+                    });
+
+                    var steps = response.map(function (item) {
+                        return item.start.properties.title;
+                    });
+
+                    console.log(steps)
+
+                    res.json({
+                        "status": "success",
+                        "steps": steps
+                    });
+                }
+
+                session.close();
+            })
+            .catch(function (error) {
+                console.log(error);
+                res.json({
+                    "status": "error",
+                    "code": "NO_CONNECTION"
+                });
+
+            });
+
+    })
+
+    app.get('/random', function (req, res) {
+
+        var start = req.params.start
+        var finish = req.params.finish
+        var session = driver.session();
+
+        session.run("MATCH (n) WHERE rand() <= 0.0001  RETURN n.title AS random LIMIT 1")
             .subscribe({
                 onNext: function (record) {
-                    result = record.get('name')
-                    res.json(result.segments);
-                },
+                    result = record.get('random')
+                    res.json({
+                        "status": "success",
+                        "randomTitle": result
+                    });                },
                 onCompleted: function () {
                     session.close();
                 },
                 onError: function (error) {
                     console.log(error);
-                    res.json({"status":"error", "code":"NO_CONNECTION"}); // return all todos in JSON format
+                    res.json({
+                        "status": "error",
+                        "code": "NO_CONNECTION"
+                    });
                 }
             });
 

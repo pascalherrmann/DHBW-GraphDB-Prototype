@@ -1,4 +1,5 @@
 # DHBW-GraphDB-Prototype
+
 ### Getting Started with Docker
 
 ##### PHP + Neo4j + Arangodb:

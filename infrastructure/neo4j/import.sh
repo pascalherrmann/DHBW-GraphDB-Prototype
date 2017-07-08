@@ -9,6 +9,8 @@ bigEcho () {
    echo "=================================================="
 }
 
+start=$(date +%s)
+
 bigEcho "Hallo und Herzlich Willkommen zum Wikipedia-Import!"
 
 if [ -z ${1+x} ]; #wäre auch über Umgebungsvariable $wikilanguage erreichbar!
@@ -16,7 +18,13 @@ if [ -z ${1+x} ]; #wäre auch über Umgebungsvariable $wikilanguage erreichbar!
     else echo "We will download the following wiki: '$1'"; language=$1;
 fi
 
-sleep 5
+echo -ne '#####                     (2)\r'
+sleep 1
+echo -ne '#############             (1)\r'
+sleep 1
+echo -ne '#######################   (0)\r'
+sleep 1
+echo -ne '\n'
 
 echo "Wir beginnen mit der Installation von Maven, git und Java."
 
@@ -31,37 +39,43 @@ apk update
 apk add ca-certificates wget
 update-ca-certificates
 
-bigEcho "Supi. Jetzt erstmal das GRAPHIPEDIA Repository klonen."
+bigEcho "Clonen Graphipedia Repo"
 git clone git://github.com/mirkonasato/graphipedia.git
 cd graphipedia/
 
-bigEcho "Und als nächstes Maven starten!"
+bigEcho "Installing Graphipedia Dependencies with Maven"
 mvn install
 
-bigEcho "Nun laden wir den Wikipedia-Dump herunter"
+bigEcho "Downloading Wikipedia-Dump for Language '${language}'"
+echo http://dumps.wikimedia.org/${language}wiki/latest/${language}wiki-latest-pages-articles.xml.bz2
 wget http://dumps.wikimedia.org/${language}wiki/latest/${language}wiki-latest-pages-articles.xml.bz2
 
-bigEcho "Und entpacken ihn nun"
+bigEcho "Extracting"
 bzip2 -d ${language}wiki-latest-pages-articles.xml.bz2
 
-bigEcho "Jetzt wird das Skript gestartet:"
-echo "Erst parsen der Links"
+bigEcho "Starting Graphipedia Service"
+echo "1) Parsing links from downloaded XML-File"
 java -classpath ./graphipedia-dataimport/target/graphipedia-dataimport.jar org.graphipedia.dataimport.ExtractLinks ${language}wiki-latest-pages-articles.xml final-${language}wiki-links.xml
 
-echo "Dann erstellen der Neo4j-Datenbank"
+echo "2) Creating Neo4j Data directory"
 java -Xmx3G -classpath ./graphipedia-dataimport/target/graphipedia-dataimport.jar org.graphipedia.dataimport.neo4j.ImportGraph final-${language}wiki-links.xml neo-wiki-${language}
 
-bigEcho "Daten-Ordner löschen und neu erstellen, damit man Dinge hineinkopieren kann..."
+bigEcho "Let's delete the /var/lib/neo4j/data-directory  and create it newly in order to copy or folder into it."
 rm -r /var/lib/neo4j/data
 mkdir /var/lib/neo4j/data
 mkdir /var/lib/neo4j/data/databases
 
 cp -r neo-wiki-${language} /var/lib/neo4j/data/databases/neo-wiki-${language}
 
-echo "Anpassen der Neo4j-Config-Datei"
+echo "Customize Neo4j-Configuration"
 echo "dbms.allow_format_migration=true" >> /var/lib/neo4j/conf/neo4j.conf
 echo "dbms.active_database=neo-wiki-${language}"  >> /var/lib/neo4j/conf/neo4j.conf
 
 if [ -d /var/lib/neo4j/data/databases/neo-wiki-${language} ];
     then  bigEcho "SUCCESS!";
 fi
+
+end=$(date +%s)
+duration=$((end-start))
+
+echo "$((duration / 60)) minutes and $((duration % 60)) seconds elapsed."

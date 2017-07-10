@@ -24,15 +24,15 @@ class ArangoAdapter implements WikiInterface
     public function __construct()
     {
 
-        if (array_key_exists('USER_ARANGO',$_ENV) == false) $_ENV['USER_ARANGO']='root';
-        if (array_key_exists('PWD_ARANGO',$_ENV) == false) $_ENV['PWD_ARANGO']='';
-        if (array_key_exists('HOST_ARANGO',$_ENV) == false) $_ENV['HOST_ARANGO']='127.0.0.1';
-        if (array_key_exists('PORT_ARANGO',$_ENV) == false)$_ENV['PORT_ARANGO']='8529';
+        if (array_key_exists('USER_ARANGO', $_ENV) == false) $_ENV['USER_ARANGO'] = 'root';
+        if (array_key_exists('PWD_ARANGO', $_ENV) == false) $_ENV['PWD_ARANGO'] = '';
+        if (array_key_exists('HOST_ARANGO', $_ENV) == false) $_ENV['HOST_ARANGO'] = '127.0.0.1';
+        if (array_key_exists('PORT_ARANGO', $_ENV) == false) $_ENV['PORT_ARANGO'] = '8529';
 
 
         $connectionOptions = array(
             // server endpoint to connect to
-            ConnectionOptions::OPTION_ENDPOINT => 'tcp://'.$_ENV['HOST_ARANGO'].':'.$_ENV['PORT_ARANGO'],
+            ConnectionOptions::OPTION_ENDPOINT => 'tcp://' . $_ENV['HOST_ARANGO'] . ':' . $_ENV['PORT_ARANGO'],
             // authorization type to use (currently supported: 'Basic')
             ConnectionOptions::OPTION_AUTH_TYPE => 'Basic',
             // user for basic authorization
@@ -58,9 +58,41 @@ class ArangoAdapter implements WikiInterface
     {
 
         $query = "For doc in pages
-    Filter doc.`name`LIKE @name
-    Limit 25
-    Return doc.`name`";
+    Filter doc.name LIKE @name
+    Sort doc.inEdgesCount DESC
+    Limit 10
+    Return doc.name";
+
+        $statement = new Statement(
+            $this->connection,
+            array(
+                "query" => $query,
+                "count" => true,
+                "batchSize" => 1000,
+                "sanitize" => true,
+                "bindVars" => array("name" => $teilwort . "%")
+            )
+        );
+        $response = new \StdClass();
+
+        # Statement ausführen und Ergebnis
+        try {
+            $cursor = $statement->execute();
+            $result = ($cursor->getAll());
+            $response->status = "SUCCESS";
+            $response->pages = $result;
+
+        } catch (\Exception $e) {
+            $response->status = "ERROR";
+            $response->pages = [];
+            $response->code = $e->getCode();
+            $response->message = $e->getMessage();
+        }
+
+
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
+
+
     }
 
     public function shortestPath(string $start, string $end)
@@ -93,13 +125,29 @@ class ArangoAdapter implements WikiInterface
             )
         );
 
-        # Statement ausführen und Ergebnis
-        $cursor = $statement->execute();
-        $result = ($cursor->getAll()[0]);
+        $response = new  \StdClass();
+        try {
+            # Statement ausführen und Ergebnis
+            $cursor = $statement->execute();
+            $result = ($cursor->getAll()[0]);
+            $response->status = "SUCCESS";
+            foreach ($result->vertices as $vertex) {
+                $response->path[] = $vertex['name'];
+            }
+            //$response->path = $result->vertices;
+            $response->length = $result->distance;
+            $response->execTime = $cursor->getExtra()['stats']['executionTime'];
+        }catch (\Exception $e) {
+            $response->status = "ERROR";
+            $response->message = $e->getMessage();
+            $response->code = $e->getCode();
+
+        }
 
 
-        echo(json_encode($result->vertices, JSON_PRETTY_PRINT));
-        echo $result->distance;
+
+
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
 
 
     }
@@ -109,10 +157,10 @@ class ArangoAdapter implements WikiInterface
 
 
         # AQL Query zur Selektion eines zufälligen Eintrages
-        $query = "FOR doc IN @@collection
-                  SORT RAND()
-                  LIMIT 1
-                   RETURN doc.`name`";
+        $query = "FOR node IN @@Collection
+                SORT RAND()
+                LIMIT 1
+                RETURN node.name";
 
         # Statement zur Ausführung der Query erzeugen
         $statement = new Statement(
@@ -122,14 +170,25 @@ class ArangoAdapter implements WikiInterface
                 "count" => true,
                 "batchSize" => 1000,
                 "sanitize" => true,
-                "bindVars" => array("@collection" => "pages")
+                "bindVars" => array("@Collection" => "pages")
             )
         );
 
-        # Statement ausführen und Ergebnis
-        $cursor = $statement->execute();
-        return ($cursor->getAll()[0]);
+        $response = new \StdClasS();
+        try{
+            $cursor = $statement->execute();
+            $response->status = "SUCCESS";
+            $response->entry = $cursor->getAll()[0];
 
+        }catch (\Exception $e){
+            $response->status = "ERROR";
+            $response->message = $e->getMessage();
+            $response->code = $e->getCode();
+
+        }
+        # Statement ausführen und Ergebnis
+
+        return $response;
 
 
     }
@@ -160,9 +219,7 @@ class ArangoAdapter implements WikiInterface
         return ($cursor->getAll()[0]);
 
 
-
     }
-
 
 
 }

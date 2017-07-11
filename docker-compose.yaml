@@ -1,5 +1,6 @@
 version: '2'
 services:
+
   neo4j-wiki:
     build:
       context: ./infrastructure/neo4j
@@ -10,13 +11,25 @@ services:
     ports:
       - "7474:7474"
       - "7687:7687"
+
+  arango-wiki:
+    build: ./infrastructure/arangodb
+    image: arangotest
+    restart: always
+    ports:
+      - "8529:8529"
+    environment:
+      ARANGO_ROOT_PASSWORD: arango
+
   my_application:
     build: .
+
     depends_on:
       - neo4j-wiki
     image: phptest
     links:
       - neo4j-wiki:neoAlias
+      - arango-wiki:arangoAlias
     ports:
       - "80:80"
     restart: always
@@ -24,3 +37,6 @@ services:
       USER_NEO: neo4j
       PWD_NEO: neo
       HOST_NEO: neoAlias
+      HOST_ARANGO: arangoAlias
+      PWD_ARANGO: arango
+

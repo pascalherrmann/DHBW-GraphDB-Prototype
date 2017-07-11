@@ -2,7 +2,7 @@ FROM arangodb
 
 MAINTAINER Hendrik Pommerening
 
-COPY data /data
+#COPY data /data
 
 COPY import.sh .
 

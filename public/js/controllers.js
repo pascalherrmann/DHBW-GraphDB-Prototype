@@ -85,9 +85,6 @@ controllers.controller('WikiController', ["$scope", "$http", "$route", "wikiServ
 
         $scope.search = function (a, b) {
 
-            console.log("joo")
-
-
             var escapedA = a.replace(/\//g, '%2F');
             var escapedB = b.replace(/\//g, '%2F');
 

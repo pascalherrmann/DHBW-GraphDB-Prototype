@@ -12,8 +12,7 @@ arangod &
 echo "Installation wget und unzip"
 apt-get update -q
 apt-get upgrade -q
-apt-get install wget -q -y
-apt-get install unzip -q -y
+apt-get install -y wget unzip
 
 echo "Starte Download des Dumps"
 mkdir dump

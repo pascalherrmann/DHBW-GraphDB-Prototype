@@ -47,6 +47,9 @@ class Neo4Adapter implements WikiInterface
         try {
             $path = ($this->client->run($query, $parameters)->getRecord()->value('p'));
             $response->status = "SUCCESS";
+            foreach ($path->nodes() as $node) {
+                $response->path[] = $node->value('title');
+            }
         } catch (\RuntimeException $e) {
             $response->status = "ERROR";
             $response->message = $e->getMessage();
@@ -54,17 +57,6 @@ class Neo4Adapter implements WikiInterface
 
             return json_encode($response, JSON_UNESCAPED_UNICODE);
         }
-
-
-        $nodes = $path->nodes();
-
-        foreach ($nodes as $node) {
-            $steps[] = $node->value('title');
-        }
-
-
-        $response->nodes = $steps;
-
 
         return json_encode($response, JSON_UNESCAPED_UNICODE);
 

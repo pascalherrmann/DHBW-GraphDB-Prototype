@@ -1,13 +1,13 @@
 FROM arangodb
 
-MAINTAINER Pascal Herrmann
+MAINTAINER Hendrik Pommerening
 
 COPY data /data
 
 COPY import.sh .
 
-RUN chmod o+rx /root && \ 
-    chmod +x import.sh   
+RUN chmod o+rx /root && \
+    chmod +x import.sh
 
 RUN ./import.sh
 

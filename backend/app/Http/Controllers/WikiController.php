@@ -53,13 +53,13 @@ class WikiController extends Controller
         # Abfrage eines zufälligen Eintrages durch das ausgewählte DB-System
         if ($dbsys == "neo") {
             $adapter = new Neo4Adapter();
-            $response->entry = $adapter->randomEntry();
+            $response = $adapter->randomEntry();
 
         }
 
         if ($dbsys == "arango") {
             $adapter = new ArangoAdapter();
-            $response->entry = $adapter->randomEntry();
+            $response = $adapter->randomEntry();
         }
 
         if (!(in_array($dbsys, ['neo', 'arango']))) {

@@ -1,12 +1,5 @@
 var services = angular.module('graphDBPrototypeAppServices', []);
 
-
-/*
-- bei Nodejs dann einfach /.
-- und so problemlos wechslen
-- es ergibt schon auch Sinn, wenn man
-*/
-
 services.factory("wikiServices", ["$http", function ($http) {
 
     var apiPath = "php-api/neo/"

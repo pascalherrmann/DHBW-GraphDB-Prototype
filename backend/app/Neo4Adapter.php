@@ -55,7 +55,6 @@ class Neo4Adapter implements WikiInterface
             $response->message = $e->getMessage();
             $response->code = $e->getCode();
 
-            return json_encode($response, JSON_UNESCAPED_UNICODE);
         }
 
         return json_encode($response, JSON_UNESCAPED_UNICODE);
@@ -66,6 +65,24 @@ class Neo4Adapter implements WikiInterface
     public function autocomplete(string $teilwort)
     {
         $query = "start n = node(*) where n.title =~ {subString} return n.title LIMIT 10";
+
+        $parameters= array('subString' => ".*".$teilwort.".*");
+
+        $response = new \StdClass();
+        try{
+            $result = $this->client->run($query, $parameters);
+            foreach ($result->records() as $record) {
+                $response->pages[] = $record->get('n.title');
+            }
+
+            $response->status = "SUCCESS";
+
+        }catch (\Exception $e) {
+            $response->status = "ERROR";
+            $response->message = $e->getMessage();
+            $response->code = $e->getCode();
+        }
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
     }
 
     public function randomEntry()
@@ -73,8 +90,6 @@ class Neo4Adapter implements WikiInterface
 
 
 
-        $query = 'CREATE (database:Database {name:"Neo4j"})-[r:SAYS]->(message:Message {name:"Hello World!"}) RETURN database, message, r';
-
-        $result = $client->run($query);
+        
     }
 }

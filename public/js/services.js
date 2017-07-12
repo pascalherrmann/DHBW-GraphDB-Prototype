@@ -1,5 +1,13 @@
 var services = angular.module('graphDBPrototypeAppServices', []);
 
+var apiPath = "php-api/path/neo"
+
+/*
+- bei Nodejs dann einfach /.
+- und so problemlos wechslen
+- es ergibt schon auch Sinn, wenn man
+*/
+
 services.factory("wikiServices", ["$http", function ($http) {
     return {
         getTypeAhead: function (value) {

@@ -61,6 +61,7 @@ echo "2) Creating Neo4j Data directory"
 java -Xmx3G -classpath ./graphipedia-dataimport/target/graphipedia-dataimport.jar org.graphipedia.dataimport.neo4j.ImportGraph final-${language}wiki-links.xml neo-wiki-${language}
 
 bigEcho "Let's delete the /var/lib/neo4j/data-directory  and create it newly in order to copy or folder into it."
+# since /data is a volume.
 rm -r /var/lib/neo4j/data
 mkdir /var/lib/neo4j/data
 mkdir /var/lib/neo4j/data/databases

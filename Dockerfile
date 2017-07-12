@@ -3,7 +3,7 @@ FROM php:7.1-apache
 
 MAINTAINER Pascal Herrmann
 
-# Backend kopieren (PHP-Dateien) - muss in www
+# Backend kopieren (PHP-Dateien) - muss in /var/www
 COPY ./backend /var/www/backend
 
 # Frontend kopieren (JS) - muss immer in html

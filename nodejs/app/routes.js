@@ -1,6 +1,6 @@
 module.exports = function (app, driver) {
 
-    app.get('/wiki/:subString', function (req, res) {
+    app.get('/autocomplete/:subString', function (req, res) {
 
         var subString = req.params.subString
         var session = driver.session();
@@ -32,7 +32,7 @@ module.exports = function (app, driver) {
 
     });
 
-    app.get('/wiki/:start/:finish', function (req, res) {
+    app.get('/path/:start/:finish', function (req, res) {
 
         var start = req.params.start
         var finish = req.params.finish

@@ -1,6 +1,9 @@
+
+
 <div class="vertical-center">
 
     <div class="container">
+
 
 
         <div class="row">
@@ -41,7 +44,36 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-success btn-lg" ng-click="search(start, finish);" ng-disabled="!start || !finish">{{"WIKI_LETS_START_BUTTON" | translate}}</button>
+
+
+
+                        <div class="row">
+
+
+
+                            <div class="col-md-4">
+
+                                <div class="form-group">
+                                    <select class="form-control" ng-model="apiPath" ng-change="changePath(apiPath)">
+                                        <option value="php-api/neo/">{{'CHOOSE_NEO4J' | translate}}</option>
+                                        <option value="php-api/arango/">{{'CHOOSE_ARANGO' | translate}}</option>
+                                        <option value="/">{{'CHOOSE_NODE' | translate}}</option>
+                                  </select>
+                                </div>
+
+                            </div>
+
+                        <div class="col-md-4">
+                                                <button type="submit" class="btn btn-success btn-lg" ng-click="search(start, finish);" ng-disabled="!start || !finish">{{"WIKI_LETS_START_BUTTON" | translate}}</button>
+
+                        </div>
+
+
+                                                </div>
+
+
+
+
                     </form>
 
                 </div>

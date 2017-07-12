@@ -26,7 +26,7 @@ controllers.controller('InfoController', ["$scope", "$http", function ($scope, $
 
 controllers.controller('WikiController', ["$scope", "$http", "$route", "wikiServices", function ($scope, $http, $route, wikiServices) {
 
-
+        $scope.apiPath = wikiServices.getAPIPath()
         $scope.status = "NEW"
 
         var start = $route.current.params.START;
@@ -48,6 +48,10 @@ controllers.controller('WikiController', ["$scope", "$http", "$route", "wikiServ
                     return response.data.titles
                 }
 
+            }).catch(function (error) {
+                console.log(error);
+                $scope.status = "ERROR"
+                $scope.errorCode = "FRONTEND"
             });
         };
 
@@ -90,7 +94,7 @@ controllers.controller('WikiController', ["$scope", "$http", "$route", "wikiServ
 
             $scope.status = "LOADING"
 
-            $http.get("wiki/" + escapedA + "/" + escapedB).then(function (response) { //dann muss auch im Controller then davor
+            return wikiServices.getPath(escapedA, escapedB).then(function (response) { //dann muss auch im Controller then davor
 
                 $scope.status = response.data.status
 
@@ -114,9 +118,14 @@ controllers.controller('WikiController', ["$scope", "$http", "$route", "wikiServ
             $scope.status = "NEW"
         }
 
+
+     $scope.changePath = function (path) {
+
+         console.log(path)
+                      wikiServices.setAPIPath(path)
+
+
+
+    };
+
 }])
-    /*
-
-
-    So ist Spitze! Man macht nicht isError, isNothingFound und isSuccess, sondern ein Status!!!! Für jede mögliche Antowrt!!!
-    */

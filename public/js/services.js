@@ -1,6 +1,5 @@
 var services = angular.module('graphDBPrototypeAppServices', []);
 
-var apiPath = "php-api/path/neo"
 
 /*
 - bei Nodejs dann einfach /.
@@ -9,15 +8,26 @@ var apiPath = "php-api/path/neo"
 */
 
 services.factory("wikiServices", ["$http", function ($http) {
+
+    var apiPath = "php-api/neo/"
+
     return {
+        getAPIPath: function () {
+            return apiPath;
+        },
+
+        setAPIPath: function (path) {
+            apiPath = path;
+        },
+
         getTypeAhead: function (value) {
-            return $http.get("wiki/" + value);
+            return $http.get(apiPath+"autocomplete/" + value);
         },
         getPath: function (start, finish) {
-            return $http.get("wiki/"+start+"/"+finish);
+            return $http.get(apiPath+"path/"+start+"/"+finish);
         },
         getRandom: function () {
-            return $http.get("random");
+            return $http.get(apiPath+"random");
         }
     };
 

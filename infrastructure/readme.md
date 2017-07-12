@@ -89,3 +89,11 @@ npm start
 ```
 
 And go to: http://localhost:8080
+
+
+
+# More
+##### Remove untagged images
+```
+docker images -f "dangling=true" -q 
+```

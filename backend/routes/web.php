@@ -15,9 +15,9 @@ $app->get('/', function () use ($app) {
     return "<h1>WikiBackend läuft :) </h1>". $app->version();
 });
 
-$app->get('path/{dbsys}/{start}/{ziel}', 'WikiController@getShortestPath');
+$app->get('{dbsys}/path/{start}/{ziel}', 'WikiController@getShortestPath');
 
-$app->get('autocomplete/{dbsys}/{substring}', 'WikiController@getAutoComplete');
+$app->get('{dbsys}/autocomplete/{substring}', 'WikiController@getAutoComplete');
 
-$app->get('random/{dbsys}', 'WikiController@getRandomEntry');
+$app->get('{dbsys}/random', 'WikiController@getRandomEntry');
 

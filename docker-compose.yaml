@@ -19,7 +19,7 @@ services:
     image: arango-wiki-img
     restart: always
     ports:
-      - "8529:8529"
+      - "8529"
     environment:
       ARANGO_ROOT_PASSWORD: arango # does not show effect, since we changed data folder!
 
@@ -33,7 +33,7 @@ services:
       - neo4j-wiki:neoAlias
       - arango-wiki:arangoAlias
     ports:
-      - "80:80"
+      - "80"
     restart: always
     environment:
       USER_NEO: neo4j
@@ -41,4 +41,3 @@ services:
       HOST_NEO: neoAlias
       HOST_ARANGO: arangoAlias
       #PWD_ARANGO: arango
-

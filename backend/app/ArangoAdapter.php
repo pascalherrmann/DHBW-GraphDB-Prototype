@@ -157,10 +157,7 @@ class ArangoAdapter implements WikiInterface
 
 
         # AQL Query zur Selektion eines zufälligen Eintrages
-        $query = "FOR node IN @@Collection
-                SORT RAND()
-                LIMIT 1
-                RETURN node.name";
+        $query = "FOR node IN @@Collection SORT RAND() LIMIT 1 RETURN node.name";
 
         # Statement zur Ausführung der Query erzeugen
         $statement = new Statement(

@@ -45,7 +45,7 @@ controllers.controller('WikiController', ["$scope", "$http", "$route", "wikiServ
                     $scope.errorCode = response.data.code
                     return []
                 } else {
-                    return response.data.titles
+                    return response.data.pages
                 }
 
             }).catch(function (error) {
@@ -69,9 +69,9 @@ controllers.controller('WikiController', ["$scope", "$http", "$route", "wikiServ
                 } else {
 
                     if (isStart) {
-                        $scope.start = response.data.randomTitle
+                        $scope.start = response.data.entry
                     } else {
-                        $scope.finish = response.data.randomTitle
+                        $scope.finish = response.data.entry
                     }
                 }
 
@@ -99,7 +99,7 @@ controllers.controller('WikiController', ["$scope", "$http", "$route", "wikiServ
                 $scope.status = response.data.status
 
                 if (response.data.status == "SUCCESS") {
-                    $scope.steps = response.data.steps
+                    $scope.steps = response.data.path
                 } else if (response.data.status == undefined) {
                     $scope.status = "ERROR"
                     $scope.errorCode = response.data.code

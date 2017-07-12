@@ -19,7 +19,7 @@ module.exports = function (app, driver) {
                 session.close();
                     res.json({
                         "status": "SUCCESS",
-                        "titles": titles
+                        "pages": titles
                     });
             })
             .catch(function (error) {
@@ -66,7 +66,7 @@ module.exports = function (app, driver) {
 
                     res.json({
                         "status": "SUCCESS",
-                        "steps": steps
+                        "path": steps
                     });
                 }
 
@@ -95,7 +95,7 @@ module.exports = function (app, driver) {
                     result = record.get('random')
                     res.json({
                         "status": "SUCCESS",
-                        "randomTitle": result
+                        "entry": result
                     });                },
                 onCompleted: function () {
                     session.close();

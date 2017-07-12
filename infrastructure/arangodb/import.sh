@@ -31,5 +31,5 @@ unzip dump-bar.zip
 cd ..
 
 echo "Starte import des Dumps"
-arangorestore --input-directory "dump"
+arangorestore --input-directory "dump" --include-system-collections true
 bigEcho "Fertig :)"

@@ -51,6 +51,7 @@ class ArangoAdapter implements WikiInterface
             ConnectionOptions::OPTION_UPDATE_POLICY => UpdatePolicy::LAST,
         );
 
+        
         $this->connection = new Connection($connectionOptions);
     }
 

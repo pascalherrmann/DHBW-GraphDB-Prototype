@@ -14,11 +14,11 @@ interface WikiInterface
 
     /**
      * Funktion zur Ausgabe einer Liste mit möglichen Einträgen in der Datenbank
-     * Limiert auf 25 Treffer
+     * Limiert auf 10 Treffer
      *
      * @param   string $teilwort       Anfang des zu suchenenden Wortes
      *
-     * @return  array                  Liste möglicher Wörter
+     * @return  string                 JSON-Response mit Status und Liste möglicher Wörter
      */
     public function autocomplete(string $teilwort) ;
 
@@ -28,7 +28,7 @@ interface WikiInterface
      * @param   string $start       Name der Startseite
      * @param   string  $end        Name der Zielseite
      *
-     * @return  array               Liste der nötigen Schritte
+     * @return  string              JSON Mit: Liste der nötigen Schritte
      *                              Ausführungszeit
      *                              Verwendete Datenbank
      */

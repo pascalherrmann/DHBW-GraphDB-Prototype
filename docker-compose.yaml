@@ -6,7 +6,7 @@ services:
       context: ./infrastructure/neo4j
       args:
         wikilanguage: bar
-    image: neotest
+    image: neo-wiki-img
     restart: always
     ports:
       - "7474"

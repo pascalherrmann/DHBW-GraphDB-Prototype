@@ -8,6 +8,7 @@ docker build -t neotest --build-arg wikilanguage=bar .
 
 ### Start Neo4j Container Manually
 ##### Start DB
+* wichtig: Ports 7474 und 7687 freigeben!
 ```
 docker run --publish=7474:7474 --publish=7687:7687 neotest
 ```
@@ -97,3 +98,17 @@ And go to: http://localhost:8080
 ```
 docker images -f "dangling=true" -q 
 ```
+
+
+
+
+
+until $(curl --output /dev/null --silent --head --fail http://localhost:7474); do
+    printf '.'
+    sleep 1
+done
+
+
+
+
+/usr/bin/wget "www.example.com" --timeout 30 -O - 2>/dev/null | grep "Normal operation string" || echo "The site is down ${1}" | /usr/bin/mail -v -s "Site is down" pascal@byom.de

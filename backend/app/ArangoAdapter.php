@@ -130,14 +130,17 @@ class ArangoAdapter implements WikiDbAdapterInterface
         try {
             # Statement ausführen und Ergebnis
             $cursor = $statement->execute();
-            $result = ($cursor->getAll()[0]);
-            $response->status = "SUCCESS";
-            $response->path = array();
-            foreach ($result->vertices as $vertex) {
-                $response->path[] = $vertex['name'];
-            }
-            if (count($response->path) == 0) $response->status = "NO_PATH_FOUND";
-            $response->length = $result->distance;
+             if($cursor->getCount() == 0) {
+                 $response->status = "NO_PATH_FOUND";
+             } else {
+                 $result = ($cursor->getAll()[0]);
+                 $response->status = "SUCCESS";
+                 $response->path = array();
+                 foreach ($result->vertices as $vertex) {
+                     $response->path[] = $vertex['name'];
+                 }
+                 $response->length = $result->distance;
+             }
             $response->execTime = $cursor->getExtra()['stats']['executionTime'];
         }catch (\Exception $e) {
             $response->status = "ERROR";

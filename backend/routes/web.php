@@ -14,10 +14,12 @@
 $app->get('/', function () use ($app) {
     return "<h1>WikiBackend läuft :) </h1>". $app->version();
 });
-
+// Kürzester Pfad
 $app->get('{dbsys}/path/{start}/{ziel}', 'WikiController@getShortestPath');
 
+// Autovervollständigung
 $app->get('{dbsys}/autocomplete/{substring}', 'WikiController@getAutoComplete');
 
+// Zufallsseite
 $app->get('{dbsys}/random', 'WikiController@getRandomEntry');
 

@@ -19,7 +19,7 @@ services:
     image: arango-wiki-img
     restart: always
     ports:
-      - "8529:8529"
+      - "8529"
     environment:
       ARANGO_ROOT_PASSWORD: arango # does not show effect, since we import a db dump with users.
 

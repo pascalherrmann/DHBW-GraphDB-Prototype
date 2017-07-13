@@ -9,8 +9,8 @@ services:
     image: neo-wiki-img
     restart: always
     ports:
-      - "7474"
-      - "7687"
+      - "7474:7474"
+      - "7687:7687"
     environment:
       NEO4J_AUTH: neo4j/neo
 
@@ -19,7 +19,7 @@ services:
     image: arango-wiki-img
     restart: always
     ports:
-      - "8529"
+      - "8529:8529"
     environment:
       ARANGO_ROOT_PASSWORD: arango # does not show effect, since we import a db dump with users.
 
@@ -28,12 +28,12 @@ services:
     depends_on:
       - neo4j-wiki
       - arango-wiki
-    image: phptest
+    image: php-wiki-img
     links:
       - neo4j-wiki:neoAlias
       - arango-wiki:arangoAlias
     ports:
-      - "80"
+      - "8081:80"
     restart: always
     environment:
       USER_NEO: neo4j

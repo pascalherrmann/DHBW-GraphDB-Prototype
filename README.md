@@ -6,7 +6,7 @@
 ```
 docker-compose up
 ```
-* Go To http://localhost/php-api/path/neo/Minga/Bier
+* Go To http://localhost:8081/php-api/path/neo/Minga/Bier
 
 ##### Node.js + Neo4j:
 ```

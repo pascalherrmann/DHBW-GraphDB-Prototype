@@ -36,7 +36,7 @@ class Neo4Adapter implements WikiDbAdapterInterface
     {
 
         $query = "  MATCH (p0:Page {title:{start}}), (p1:Page {title:{ziel}}),
-                    p = shortestPath((p0)-[*..7]->(p1))
+                    p = shortestPath((p0)-[*..40]->(p1))
                     RETURN p";
 
         $parameters = array('start' => $start, 'ziel' => $end);

@@ -51,7 +51,7 @@ class ArangoAdapter implements WikiInterface
             ConnectionOptions::OPTION_UPDATE_POLICY => UpdatePolicy::LAST,
         );
 
-        
+
         $this->connection = new Connection($connectionOptions);
     }
 
@@ -132,10 +132,11 @@ class ArangoAdapter implements WikiInterface
             $cursor = $statement->execute();
             $result = ($cursor->getAll()[0]);
             $response->status = "SUCCESS";
+            $response->path = array();
             foreach ($result->vertices as $vertex) {
                 $response->path[] = $vertex['name'];
             }
-            //$response->path = $result->vertices;
+            if (count($response->path) == 0) $response->status = "NO_PATH_FOUND";
             $response->length = $result->distance;
             $response->execTime = $cursor->getExtra()['stats']['executionTime'];
         }catch (\Exception $e) {
@@ -186,7 +187,7 @@ class ArangoAdapter implements WikiInterface
         }
         # Statement ausführen und Ergebnis
 
-        return $response;
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
 
 
     }

@@ -47,9 +47,11 @@ class Neo4Adapter implements WikiInterface
         try {
             $path = ($this->client->run($query, $parameters)->getRecord()->value('p'));
             $response->status = "SUCCESS";
+            $response->path = array();
             foreach ($path->nodes() as $node) {
                 $response->path[] = $node->value('title');
             }
+            if (count($response->path) == 0) $response->status = "NO_PATH_FOUND";
         } catch (\RuntimeException $e) {
             $response->status = "ERROR";
             $response->message = $e->getMessage();
@@ -74,7 +76,6 @@ class Neo4Adapter implements WikiInterface
             foreach ($result->records() as $record) {
                 $response->pages[] = $record->get('n.title');
             }
-
             $response->status = "SUCCESS";
 
         }catch (\Exception $e) {
@@ -88,8 +89,23 @@ class Neo4Adapter implements WikiInterface
     public function randomEntry()
     {
 
+        $query = "MATCH (n) WHERE rand() <= 0.0001  RETURN n.title AS random LIMIT 1";
+        $response = new \StdClass();
+        try{
+            $response->entry = $this->client->run($query)->getRecord()->values()[0];
+            $response->status = "SUCCESS";
+        }catch (\Exception $e) {
+            $response->status = "ERROR";
+            $response->message = $e->getMessage();
+            $response->code = $e->getCode();
+        }
+
+        return json_encode($response, JSON_UNESCAPED_UNICODE);
 
 
-        
+
+
+
+
     }
 }

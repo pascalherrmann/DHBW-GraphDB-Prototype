@@ -53,22 +53,17 @@ class WikiController extends Controller
         # Abfrage eines zufälligen Eintrages durch das ausgewählte DB-System
         if ($dbsys == "neo") {
             $adapter = new Neo4Adapter();
-            $response = $adapter->randomEntry();
+            return $adapter->randomEntry();
 
         }
 
         if ($dbsys == "arango") {
             $adapter = new ArangoAdapter();
-            $response = $adapter->randomEntry();
+            return $adapter->randomEntry();
         }
 
-        if (!(in_array($dbsys, ['neo', 'arango']))) {
-            $response->status = "ERROR";
-            $response->message = 'Kein korrektes Datenbanksystem ausgewählt! Wähle *neo* für Neo4J oder *arango* für ArangoDB';
-        }
 
-        # Ausgabe des Eintrages als korrektes JSON
-        return json_encode($response, JSON_UNESCAPED_UNICODE);
+
     }
 
 

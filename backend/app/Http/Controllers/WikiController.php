@@ -74,7 +74,7 @@ class WikiController extends Controller
      * @return string           Konvertierter String
      */
     protected function convert(string $string) {
-        return string(strtr($string, array(
+        return (strtr($string, array(
 
             '%20'       => ' ',
             '%C3%A4'    => 'ä',

@@ -13,7 +13,7 @@ use triagens\ArangoDb\UpdatePolicy as UpdatePolicy;
 use triagens\ArangoDb\Connection as Connection;
 use triagens\ArangoDb\Statement as Statement;
 
-class ArangoAdapter implements WikiInterface
+class ArangoAdapter implements WikiDbAdapterInterface
 {
 
     protected $connection;

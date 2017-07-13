@@ -12,7 +12,7 @@ use GraphAware\Neo4j\Client\ClientBuilder as ClientBuilder;
 use Mockery\Exception;
 
 
-class Neo4Adapter implements WikiInterface
+class Neo4Adapter implements WikiDbAdapterInterface
 {
 
     protected $client;
@@ -45,14 +45,18 @@ class Neo4Adapter implements WikiInterface
         //$response->in = $start;
         $path = null;
         try {
-            $path = ($this->client->run($query, $parameters)->getRecord()->value('p'));
-            $response->status = "SUCCESS";
-            $response->path = array();
-            foreach ($path->nodes() as $node) {
-                $response->path[] = $node->value('title');
+            $result = ($this->client->run($query, $parameters));
+            if ($result->size() == 0) {
+                $response->status = "NO_PATH_FOUND";
+            } else {
+                $path = $result->getRecord()->value('p');
+                $response->status = "SUCCESS";
+                $response->path = array();
+                foreach ($path->nodes() as $node) {
+                    $response->path[] = $node->value('title');
+                }
             }
-            if (count($response->path) == 0) $response->status = "NO_PATH_FOUND";
-        } catch (\RuntimeException $e) {
+        }catch (\RuntimeException $e) {
             $response->status = "ERROR";
             $response->message = $e->getMessage();
             $response->code = $e->getCode();
@@ -62,7 +66,10 @@ class Neo4Adapter implements WikiInterface
         return json_encode($response, JSON_UNESCAPED_UNICODE);
 
 
+
     }
+
+
 
     public function autocomplete(string $teilwort)
     {

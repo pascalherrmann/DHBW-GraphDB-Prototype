@@ -96,8 +96,8 @@ controllers.controller('WikiController', ["$scope", "$http", "$route", "wikiServ
 
         $scope.search = function (a, b) {
 
-            var escapedA = a.replace(/\//g, '%2F');
-            var escapedB = b.replace(/\//g, '%2F');
+            var escapedA = a.toString().replace(/\//g, '%2F');
+            var escapedB = b.toString().replace(/\//g, '%2F');
 
             $scope.status = "LOADING"
 

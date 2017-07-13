@@ -84,7 +84,7 @@
 
         <div ng-show="status=='SUCCESS'" class="text-center">
 
-            <h1><small>von</small> <i>{{start}}</i> <small>zu</small> <i>{{finish}}</i>:</h1>
+            <h1><small>{{"FROM" | translate}}</small> <i>{{start}}</i> <small>{{"TO" | translate}}</small> <i>{{finish}}</i>:</h1>
 
             <h1 ng-repeat="x in steps">
                             <span class="label label-success">{{$index + 1}}</span> <span class="label label-primary"> {{ x }}</span>

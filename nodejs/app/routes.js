@@ -38,7 +38,7 @@ module.exports = function (app, driver) {
         var finish = req.params.finish
         var session = driver.session();
 
-        session.run("MATCH (p0:Page {title: {startParam} }), (p1:Page {title: {endParam} }),p = shortestPath((p0)-[*..7]->(p1)) RETURN p AS name", {
+        session.run("MATCH (p0:Page {title: {startParam} }), (p1:Page {title: {endParam} }),p = shortestPath((p0)-[*..50]->(p1)) RETURN p AS name", {
                 startParam: start,
                 endParam: finish
             })

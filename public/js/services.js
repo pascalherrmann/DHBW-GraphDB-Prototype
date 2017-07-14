@@ -14,13 +14,13 @@ services.factory("wikiServices", ["$http", function ($http) {
         },
 
         getTypeAhead: function (value) {
-            return $http.get(apiPath+"autocomplete/" + value);
+            return $http.get(apiPath + "autocomplete/" + value);
         },
         getPath: function (start, finish) {
-            return $http.get(apiPath+"path/"+start+"/"+finish);
+            return $http.get(apiPath + "path/" + start + "/" + finish);
         },
         getRandom: function () {
-            return $http.get(apiPath+"random");
+            return $http.get(apiPath + "random");
         }
     };
 

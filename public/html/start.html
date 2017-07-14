@@ -1,11 +1,37 @@
-    <div class="jumbotron main-background text-center" ng-if="!message">
-        <h1 class="white">{{'MAIN_TITLE' | translate}}</h1>
-        <p class="white"><span ng-show="currentUser.username == null">{{'WELCOME' | translate}}</span></p>
+<div class="jumbotron main-background text-center">
+    <h1 class="white">{{'MAIN_TITLE' | translate}}</h1>
+    <!--<p class="white"><span>{{'WELCOME' | translate}}</span></p>-->
+</div>
+
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+
+
+
+        <center>
+            <h1>{{'WELCOME' | translate}}</h1>
+
+            <p>{{'INTRO_1' | translate}}</p>
+            <p>{{'INTRO_2' | translate}}</p>
+            <a href="#wiki" type="button" class="btn btn-primary btn-lg">{{'INTRO_BUTTON' | translate}}</a>
+        </center>
+
+
+
+
+
+        <h1><small>Team:</small></h1>
+
+        <ul>
+            <li><b>Pascal Herrmann</b>: {{"INFO_PASCAL" | translate}}</li>
+            <li><b>Martin Moosbauer</b>: {{"INFO_MARTIN" | translate}}</li>
+            <li><b>Hendrik Pommerening</b>: {{"INFO_HENDRIK" | translate}}</li>
+            <li><b>Patrick Ringer</b>: {{"INFO_PATRICK" | translate}}</li>
+        </ul>
+
+        <br>
+
+
     </div>
-
-<center>
-
-    <h1>Start</h1>
-
-
-</center>
+</div>

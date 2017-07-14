@@ -1,20 +1,20 @@
 <nav class="navbar navbar-default" ng-controller="NavigationController">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#/">{{"MENU_ITEM_MAIN" | translate}}</a>
+            <a class="navbar-brand" href="#/">{{"MENU_ITEM_MAIN" | translate}}</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li ng-class="{ active: isActive('/wiki')}"><a href="#wiki">{{"MENU_ITEM_WIKIPEDIA" | translate}}</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-class="{ active: isActive('/info')}"><a href="#info"><span class="glyphicon glyphicon-info-sign"></span> {{"MENU_ITEM_INFO" | translate}}</a></li>
+            </ul>
+        </div>
     </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li ng-class="{ active: isActive('/wiki')}"><a href="#wiki">{{"MENU_ITEM_WIKIPEDIA" | translate}}</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li  ng-class="{ active: isActive('/info')}"><a href="#info"><span class="glyphicon glyphicon-info-sign"></span> {{"MENU_ITEM_INFO" | translate}}</a></li>
-      </ul>
-    </div>
-  </div>
 </nav>

@@ -45,12 +45,15 @@ class Neo4Adapter implements WikiDbAdapterInterface
         //$response->in = $start;
         $path = null;
         try {
+            $timing['start'] = microtime(true);
             $result = ($this->client->run($query, $parameters));
+            $timing['finish'] = microtime(true);
             if ($result->size() == 0) {
                 $response->status = "NO_PATH_FOUND";
             } else {
                 $path = $result->getRecord()->value('p');
                 $response->status = "SUCCESS";
+                $response->execTime =  $timing['finish'] - $timing['start'];
                 $response->path = array();
                 foreach ($path->nodes() as $node) {
                     $response->path[] = $node->value('title');

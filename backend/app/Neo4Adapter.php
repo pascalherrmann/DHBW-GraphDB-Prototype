@@ -53,7 +53,7 @@ class Neo4Adapter implements WikiDbAdapterInterface
             } else {
                 $path = $result->getRecord()->value('p');
                 $response->status = "SUCCESS";
-                $response->execTime =  $timing['finish'] - $timing['start'];
+                $response->execTime =  ($timing['finish'] - $timing['start']) * 1000;
                 $response->path = array();
                 foreach ($path->nodes() as $node) {
                     $response->path[] = $node->value('title');

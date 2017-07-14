@@ -97,10 +97,10 @@ class ArangoAdapter implements WikiDbAdapterInterface
 
     public function shortestPath(string $start, string $end)
     {
-
         # ID zum Namen ermitteln: Hamburg -> pages/35d7df6ed3d93be2927d14acc5f1fc9a
         $start_id = self::findID($start);
         $ziel_id = self::findID($end);
+        
 
         # AQL Query zur Ermittlung des Pfades:
         $query = 'LET p = ( FOR v, e IN OUTBOUND SHORTEST_PATH @startId TO @targetId GRAPH @graphName
@@ -141,7 +141,7 @@ class ArangoAdapter implements WikiDbAdapterInterface
                      $response->path[] = $vertex['name'];
                  }
              }
-            $response->execTime =  $timing['finish'] - $timing['start'];
+            $response->execTime =  ($timing['finish'] - $timing['start']) * 1000;
         }catch (\Exception $e) {
             $response->status = "ERROR";
             $response->message = $e->getMessage();
@@ -200,25 +200,7 @@ class ArangoAdapter implements WikiDbAdapterInterface
     {
 
 
-        $query = "  FOR doc IN @@collection
-                    FILTER doc.`name` == @name
-                    RETURN doc.`_id`";
-
-        # Statement zur Ausführung der Query erzeugen
-        $statement = new Statement(
-            $this->connection,
-            array(
-                "query" => $query,
-                "count" => true,
-                "batchSize" => 1000,
-                "sanitize" => true,
-                "bindVars" => array("@collection" => "pages", "name" => $name)
-            )
-        );
-
-        # Statement ausführen und Ergebnis
-        $cursor = $statement->execute();
-        return ($cursor->getAll()[0]);
+        return "pages/".hash('sha256', $name);
 
 
     }

@@ -45,12 +45,15 @@ class Neo4Adapter implements WikiDbAdapterInterface
         //$response->in = $start;
         $path = null;
         try {
+            $timing['start'] = microtime(true);
             $result = ($this->client->run($query, $parameters));
+            $timing['finish'] = microtime(true);
             if ($result->size() == 0) {
                 $response->status = "NO_PATH_FOUND";
             } else {
                 $path = $result->getRecord()->value('p');
                 $response->status = "SUCCESS";
+                $response->execTime =  $timing['finish'] - $timing['start'];
                 $response->path = array();
                 foreach ($path->nodes() as $node) {
                     $response->path[] = $node->value('title');
@@ -73,7 +76,7 @@ class Neo4Adapter implements WikiDbAdapterInterface
 
     public function autocomplete(string $teilwort)
     {
-        $query = "start n = node(*) where n.title =~ {subString} return n.title ORDER BY n.count DESC LIMIT 10";
+        $query = "start n = node(*) where n.title =~ {subString} return n.title LIMIT 10";
 
         $parameters= array('subString' => ".*".$teilwort.".*");
 

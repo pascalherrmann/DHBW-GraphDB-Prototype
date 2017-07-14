@@ -84,6 +84,7 @@
 
         <div ng-show="status=='SUCCESS'" class="text-center">
 
+
             <h1><small>{{"FROM" | translate}}</small> <i>{{start}}</i> <small>{{"TO" | translate}}</small> <i>{{finish}}</i>:</h1>
 
             <h1 ng-repeat="x in steps">
@@ -91,7 +92,9 @@
                         </h1>
 
             <br>
-            <button type="button" class="btn btn-success btn-lg" ng-click="status='NEW';steps=null;">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button>
+            <button type="button" class="btn btn-success btn-lg" ng-click="status='NEW';steps=null;">{{"WIKI_TRY_AGAIN_BUTTON" | translate}}</button><br>
+            <br>
+            <div class="row"><div class="col-md-4 col-md-offset-4"><div class="well well-sm">{{"EXECUTION_TIME_X" | translate:{ time: responseTime } }}</div></div></div>
 
         </div>
 

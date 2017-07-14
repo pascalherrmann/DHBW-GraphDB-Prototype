@@ -17,10 +17,14 @@
     "ERROR_INFO_FRONTEND": "Something went wrong! (You can check your browser logs.)",
     "ERROR_INFO_NO_CONNECTION": "Could not connect to database.",
     "ERROR_INFO_61": "Could not connect to ArangoDB.",
+    "ERROR_INFO_408": "ArangoDB timed out!",
     "CHOOSE_NEO4J":"Neo4j",
     "CHOOSE_BACKEND":"Choose database",
     "CHOOSE_ARANGO":"Arango DB",
     "CHOOSE_NODE":"Node.js + Neo4j",
-    "FROM":"From",
-    "TO":"To"
+    "FROM":"from",
+    "TO":"to",
+    "EXECUTION_TIME_X": "Execution-Time: {{time}} ms."
 }
+
+

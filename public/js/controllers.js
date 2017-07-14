@@ -107,6 +107,7 @@ controllers.controller('WikiController', ["$scope", "$http", "$route", "wikiServ
 
                 if (response.data.status == "SUCCESS") {
                     $scope.steps = response.data.path
+                    $scope.responseTime = response.data.execTime
                 } else if (response.data.status == undefined) {
                     $scope.status = "ERROR"
                     $scope.errorCode = response.data.code

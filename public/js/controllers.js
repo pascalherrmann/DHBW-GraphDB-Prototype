@@ -36,7 +36,14 @@ controllers.controller('WikiController', ["$scope", "$http", "$route", "wikiServ
 
         $scope.getPageTitlesForTypeAhead = function (val) {
 
-            var escaped = val.replace(/\//g, '%2F');
+            var escaped = val.toString()
+            escaped = escaped.replace(/\%/g, '%25');
+            escaped = escaped.replace(/\//g, '%2F');
+            escaped = escaped.replace(/\./g, '');
+
+            if (escaped.length == 0) return
+
+            console.log(escaped)
 
             return wikiServices.getTypeAhead(escaped).then(function (response) { //hier das Return nicht vergessen! Sosnt gibt die Methode nix zurück!
 
@@ -89,8 +96,8 @@ controllers.controller('WikiController', ["$scope", "$http", "$route", "wikiServ
 
         $scope.search = function (a, b) {
 
-            var escapedA = a.replace(/\//g, '%2F');
-            var escapedB = b.replace(/\//g, '%2F');
+            var escapedA = a.toString().replace(/\//g, '%2F');
+            var escapedB = b.toString().replace(/\//g, '%2F');
 
             $scope.status = "LOADING"
 

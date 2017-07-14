@@ -9,15 +9,18 @@
     "WIKI_LETS_START_BUTTON": "Let's start!",
     "WIKI_TRY_AGAIN_BUTTON": "Try again!",
     "WIKI_NO_RESULTS_FOUND": "No results found!",
-    "WELCOME": "Herzlich Willkommen!",
+    "WELCOME": "Welcome!",
     "MAIN_TITLE": "Integrationsseminar",
     "CONNECTION_ERROR_INFO":"Could not connect to database.",
     "CONNECTION_ERROR": "Error!",
     "ERROR_INFO_": "Something went wrong!",
     "ERROR_INFO_FRONTEND": "Something went wrong! (You can check your browser logs.)",
     "ERROR_INFO_NO_CONNECTION": "Could not connect to database.",
+    "ERROR_INFO_61": "Could not connect to ArangoDB.",
     "CHOOSE_NEO4J":"Neo4j",
     "CHOOSE_BACKEND":"Choose database",
     "CHOOSE_ARANGO":"Arango DB",
-    "CHOOSE_NODE":"Node.js + Neo4j"
+    "CHOOSE_NODE":"Node.js + Neo4j",
+    "FROM":"From",
+    "TO":"To"
 }

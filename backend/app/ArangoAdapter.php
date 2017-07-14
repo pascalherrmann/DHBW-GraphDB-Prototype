@@ -42,7 +42,7 @@ class ArangoAdapter implements WikiDbAdapterInterface
             // connection persistence on server. can use either 'Close' (one-time connections) or 'Keep-Alive' (re-used connections)
             ConnectionOptions::OPTION_CONNECTION => 'Close',
             // connect timeout in seconds
-            ConnectionOptions::OPTION_TIMEOUT => 3,
+            ConnectionOptions::OPTION_TIMEOUT => 20,
             // whether or not to reconnect when a keep-alive connection has timed out on server
             ConnectionOptions::OPTION_RECONNECT => true,
             // optionally create new collections when inserting documents
@@ -58,9 +58,8 @@ class ArangoAdapter implements WikiDbAdapterInterface
     public function autocomplete(string $teilwort)
     {
 
-        $query = "For doc in pages
+        $query = "For doc in pages-de
     Filter doc.name LIKE @name
-    Sort doc.inEdgesCount DESC
     Limit 10
     Return doc.name";
 
@@ -196,7 +195,7 @@ class ArangoAdapter implements WikiDbAdapterInterface
     }
 
 
-    protected function findID($name)
+    protected function findID(string $name)
     {
 
 

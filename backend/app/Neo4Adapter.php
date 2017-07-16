@@ -9,7 +9,6 @@
 namespace App;
 
 use GraphAware\Neo4j\Client\ClientBuilder as ClientBuilder;
-use Mockery\Exception;
 
 
 class Neo4Adapter implements WikiDbAdapterInterface

@@ -18,9 +18,6 @@ class ArangoAdapter implements WikiDbAdapterInterface
 
     protected $connection;
 
-    /**
-     * ArangoAdapter constructor.
-     */
     public function __construct()
     {
 
@@ -58,10 +55,11 @@ class ArangoAdapter implements WikiDbAdapterInterface
     public function autocomplete(string $teilwort)
     {
 
-        $query = "For doc in pages-de
-    Filter doc.name LIKE @name
+        $query = "For page in pages 
+    Filter page.name LIKE @name 
+    SORT page.inEdgesCount DESC
     Limit 10
-    Return doc.name";
+    return page.name";
 
         $statement = new Statement(
             $this->connection,
@@ -98,20 +96,12 @@ class ArangoAdapter implements WikiDbAdapterInterface
     public function shortestPath(string $start, string $end)
     {
         # ID zum Namen ermitteln: Hamburg -> pages/35d7df6ed3d93be2927d14acc5f1fc9a
-        $start_id = self::findID($start);
-        $ziel_id = self::findID($end);
-        
+        $start_id = "pages/".hash('sha256', $start);
+        $ziel_id = "pages/".hash('sha256', $end);
+
 
         # AQL Query zur Ermittlung des Pfades:
-        $query = 'LET p = ( FOR v, e IN OUTBOUND SHORTEST_PATH @startId TO @targetId GRAPH @graphName
-                            RETURN {vertex: v, edge: e, weight: (IS_NULL(e) ? 0 : 1)}
-                          )
-                FILTER LENGTH(p) > 0 
-                RETURN { 
-                        vertices: p[*].vertex,
-                        edges: p[* FILTER CURRENT.e != null].edge,
-                        distance: SUM(p[*].weight)
-                       }';
+        $query = 'FOR v IN OUTBOUND SHORTEST_PATH @startId TO @targetId GRAPH @graphName RETURN v.name';
 
         # Statement zur Ausführung der Query erzeugen
         $statement = new Statement(
@@ -134,12 +124,8 @@ class ArangoAdapter implements WikiDbAdapterInterface
              if($cursor->getCount() == 0) {
                  $response->status = "NO_PATH_FOUND";
              } else {
-                 $result = ($cursor->getAll()[0]);
                  $response->status = "SUCCESS";
-                 $response->path = array();
-                 foreach ($result->vertices as $vertex) {
-                     $response->path[] = $vertex['name'];
-                 }
+                 $response->path = $cursor->getAll();
              }
             $response->execTime =  ($timing['finish'] - $timing['start']) * 1000;
         }catch (\Exception $e) {
@@ -195,15 +181,6 @@ class ArangoAdapter implements WikiDbAdapterInterface
 
     }
 
-
-    protected function findID(string $name)
-    {
-
-
-        return "pages/".hash('sha256', $name);
-
-
-    }
 
 
 }

@@ -47,9 +47,6 @@ class WikiController extends Controller
     function getRandomEntry($dbsys) {
 
 
-        # Erstellen eines Objektes für die Response an das Angular Frontend
-        $response = new \StdClass();
-
         # Abfrage eines zufälligen Eintrages durch das ausgewählte DB-System
         if ($dbsys == "neo") {
             $adapter = new Neo4Adapter();

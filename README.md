@@ -2,13 +2,15 @@
 
 This app was created as a prototype for our DHBW-project "concepts and operational scenarios of graph databases" where we analyzed and evaluated different graph databases.
 
-Searching for an interesting use case with a very huge amount of publically available data, we discovered the *Wikipedia-Game*: We downloaded the wikipedia-dumps and parsed them using the graphipedia-script to import the Wikipedia-Pages (Nodes) and links between them (Edges) in our test winning graph databases, Neo4j and ArangoDB. Using our app, you can calculate the shortest path between to Wikipedia-pages, demonstrating the power of graph databases.
+Searching for an interesting use case with a very huge amount of publically available data, we discovered the *Wikipedia-Game*: We downloaded the wikipedia-dumps and parsed them using the graphipedia-script to import the Wikipedia-Pages (Nodes) and links between them (Edges) in our test winning graph databases, Neo4j and ArangoDB. For ArangoDB we wrote a multi-core python parser, which directly imports the data using arangoimp. 
+
+Using our app, you can calculate the shortest path between to Wikipedia-pages, demonstrating the power of graph databases.
 
 Have fun!
 
 ### Authors
 * @pascalherrmann: Front-End (AngularJS), Node.js, Neo4j, Docker-Images
-* @henp95: Back-End (PHP), ArangoDB, Data import with Python
+* @henp95: Back-End (PHP with Lumen from Laravel), ArangoDB, Data import with Python
 
 ### Getting Started
 We used Docker to simplifiy the installation process. All you have to do in order to build and start the required Docker images is the following:

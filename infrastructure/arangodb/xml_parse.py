@@ -28,16 +28,11 @@ def printBig(str):
 ## Begrüßung
 printBig("ArangoDB Wikipedia XML -> arangoimp ")
 
-## Sicherheitsabfrage
-print "Achtung! Diese Skripts loescht die jeweiligen Collections!"
-sure = raw_input('Fortfahren? "J/N" --> ')
-if sure != 'J':
-    sys.exit("Dann lieber nicht ;)")
-
 ## Sprachauswahl + Dateiprüfung
-lang = raw_input("Bitte ein Sprachschluessel eingeben (de = deutsch, bar = bayrisch,...) --> ")
+#lang = raw_input("Bitte ein Sprachschluessel eingeben (de = deutsch, bar = bayrisch,...) --> ")
+lang = sys.argv[1]
 link_coll_name = "links-" + lang
-pages_coll_name = "pages-" + lang
+pages_coll_name = "pages"
 xmlfile_name = "final-" + lang + "-links.xml"
 if not os.path.isfile(xmlfile_name):
     print "Bitte stelle sicher, dass", xmlfile, "vorhanden und lesbar ist!"
@@ -124,8 +119,6 @@ for event, elem in etree.iterparse(xmlfile, events=('start', 'end', 'start-ns', 
             batch.append(doc)
             count += 1
             if count % batchsize == 0:
-                #p = Popen(('arangoimp --file - --collection "links-bar" --type json --server.password ""'),shell=True, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
-                #print p.communicate(input=json.dumps(batch))[0]
                 r.render(batch)
                 batch = []
             if count % 10000 == 0:

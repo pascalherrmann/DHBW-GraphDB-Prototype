@@ -75,7 +75,7 @@ class Neo4Adapter implements WikiDbAdapterInterface
 
     public function autocomplete(string $teilwort)
     {
-        $query = "start n = node(*) where n.title =~ {subString} return n.title LIMIT 10";
+        $query = "start n = node(*) where n.title =~ {subString} return n.title ORDER BY n.count LIMIT 10";
 
         $parameters= array('subString' => ".*".$teilwort.".*");
 

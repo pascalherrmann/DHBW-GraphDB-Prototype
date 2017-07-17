@@ -34,6 +34,9 @@ module.exports = function (app, driver) {
 
     app.get('/path/:start/:finish', function (req, res) {
 
+
+        var startDate = Date.now()
+
         var start = req.params.start
         var finish = req.params.finish
         var session = driver.session();
@@ -64,9 +67,12 @@ module.exports = function (app, driver) {
 
                     console.log(steps)
 
+                            var endDate = Date.now()
+
                     res.json({
                         "status": "SUCCESS",
-                        "path": steps
+                        "path": steps,
+                        "execTime": endDate - startDate
                     });
                 }
 

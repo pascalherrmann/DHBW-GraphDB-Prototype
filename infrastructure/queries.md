@@ -99,6 +99,12 @@ MATCH (some:Page)
 RETURN count(some)
 ```
 
+##### Anzahl der Beziehungen
+```
+// Count all relationships
+MATCH (:Page)-[Link]->(:Page) RETURN count(*);
+```
+
 ##### Eingehende oder Ausgehende Links einer Seite
 ```
 MATCH (p0:Page {title:'Stuggart'}) -[Link]-> (p:Page)
